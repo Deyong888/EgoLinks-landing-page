@@ -7,6 +7,7 @@ import Header from "~/components/header.astro";
 import Intro from "~/components/intro.astro";
 import Showcase from "~/components/showcase.astro";
 import Splash from "~/components/splash.astro";
+import Howitworks from "~/components/howitworks.astro";
 import "~/styles/index.css";
 
 const { generator, site } = Astro;
@@ -23,16 +24,19 @@ const description =
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="generator" content={generator} />
 
-    <title>Astro Landing Page</title>
+    <title>EgoLinks:Your Customizable Link in Bio & Digital Identity Hub | Free Link Aggregation</title>
     <meta name="description" content={description} />
 
     <!-- social media -->
-    <meta property="og:title" content="Astro" />
-    <meta property="og:type" content="website" />
+    <meta property="og:title" content="EgoLinks|link in bio|个人主页制作|数字名片|网址导航" />
+    <meta property="og:type" content="EgoLinks|link in bio|个人主页制作|数字名片|网址导航" />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
     <meta property="og:url" content={site} />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- initialize theme -->
     <script is:inline>
@@ -65,9 +69,10 @@ const description =
     <Splash />
     <div class="space-y-24 px-8 py-32">
       <Intro />
+      <Showcase />
+      <Howitworks />
       <Features />
       <Compatibility />
-      <Showcase />
     </div>
     <Footer />
   </body>

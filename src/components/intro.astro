@@ -3,28 +3,41 @@ import { Icon } from "astro-icon/components";
 import ContentSection from "~/components/content-section.astro";
 ---
 
-<ContentSection title="Just ship less" id="intro">
-  <Icon slot="eyebrow" name="logomark" class="size-32" />
+<ContentSection title="Tired of Scattered Links & Generic Profiles?" id="intro">
+  <img slot="eyebrow" src="/favicon.svg" alt="Logo" class="size-32" />
   <Fragment slot="lead">
-    Astro is a new kind of site builder for the
-    <span class="text-primary">modern</span> web.
-    <span class="text-primary">Lightning-fast</span>
-    performance meets <span class="text-primary">powerful</span> developer experience.
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="flex flex-col items-center">
+          <i class="fas fa-link text-3xl text-primary mb-4"></i>
+          <p class="text-lg text-muted dark:text-gray-300">Multiple platform links difficult to manage?</p>
+      </div>
+      <div class="flex flex-col items-center">
+          <i class="fas fa-box text-3xl text-primary mb-4"></i>
+          <p class="text-lg text-muted dark:text-gray-300">"Link in bio" space too limited?</p>
+      </div>
+      <div class="flex flex-col items-center">
+          <i class="fas fa-id-card text-3xl text-primary mb-4"></i>
+          <p class="text-lg text-muted dark:text-gray-300">Want a more personalized online presence?</p>
+      </div>
+  </div>
+    </br>
+    <span class="text-primary">EgoLinks is Here to Help!</span>
+    One link for everything. One platform for stunning, custom pages that truly represent you or your brand. 
   </Fragment>
   <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
     <a
-      href="https://docs.astro.build/"
+      href="https://egolinks.online/login"
       class="flex items-center justify-center gap-3 border-2 border-current px-6 py-4"
     >
       <Icon name="mdi:telescope" class="size-8" />
-      <span>Read the docs</span>
+      <span>Login</span>
     </a>
     <a
-      href="https://astro.new/"
+      href="https://egolinks.online/register"
       class="flex items-center justify-center gap-3 border-2 border-current px-6 py-4"
     >
       <Icon name="mdi:rocket" class="size-8" />
-      <span>Try it out</span>
+      <span>Register</span>
     </a>
   </div>
 </ContentSection>
