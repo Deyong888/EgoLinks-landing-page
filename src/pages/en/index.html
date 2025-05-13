@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EgoLinks - 创造你的惊艳数字身份枢纽</title>
+    <meta name="description" content="EgoLinks 让你能够构建高度可定制的链接页面、数字名片、简历、作品集等——尽在一处。免费且易于上手。">
+    <meta name="keywords" content="EgoLinks, 链接聚合, 个人主页, 数字名片, 个人品牌, 创作者工具, 个人网站">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif; /* 默认使用无衬线体 */
+        }
+        .serif {
+            font-family: 'Noto Serif SC', serif; /* 需要时可以切换到衬线体 */
+        }
+        /* 额外的全局样式，例如，深色模式下的文本颜色 */
+        .dark {
+            --tw-body-color: #f9fafb; /* 浅灰色，几乎是白色 */
+        }
+
+        /* 确保 Mermaid 图表在深色模式下也能看清 */
+        .dark svg {
+            color: #f9fafb; /* 浅灰色，几乎是白色 */
+        }
+
+        /* 调整Tailwind CSS的默认颜色，使之更符合设计规范 */
+        :root {
+            --primary-color: #f472b6; /* 活力珊瑚粉 */
+            --primary-hover-color: #ec4899;
+            --secondary-color: #6b7280; /* 灰中色 */
+            --text-color: #1f2937; /* 深灰色，用于主要文本 */
+            --heading-color: #111827; /* 接近黑色，用于标题 */
+            --background-color: #ffffff; /* 白色 */
+            --card-background-color: #ffffff;
+            --border-color: #e5e7eb; /* 较淡的边框颜色 */
+            --muted-text-color: #6b7280; /* 灰中色，用于较不重要的文本 */
+            --accent-color: #3b82f6; /* 蓝色 */
+        }
+
+        .dark {
+            --text-color: #f8fafc;  /* 亮的文本颜色 */
+            --heading-color: #ffffff;
+            --background-color: #0f172a;  /* 深色的背景 */
+            --card-background-color: #1e293b; /* 稍亮的深色卡片背景 */
+            --border-color: #334155;
+            --muted-text-color: #9ca3af;
+        }
+
+        .bg-primary { background-color: var(--primary-color); }
+        .hover\:bg-primary-hover:hover { background-color: var(--primary-hover-color); }
+        .text-primary { color: var(--primary-color); }
+        .text-secondary { color: var(--secondary-color); }
+        .text-heading { color: var(--heading-color); }
+        .bg-background { background-color: var(--background-color); }
+        .bg-card { background-color: var(--card-background-color); }
+        .border-color { border-color: var(--border-color); }
+        .text-muted { color: var(--muted-text-color); }
+        .text-accent { color: var(--accent-color); }
+
+        /* 针对中文排版的优化 */
+        .text-heading {
+            font-weight: 600; /* 默认标题字重 */
+            letter-spacing: -0.02em; /* 稍微收紧标题的字间距 */
+        }
+        h1 {
+            font-size: 2.5rem; /* 40px */
+            line-height: 3rem; /* 48px */
+            margin-bottom: 1.5rem; /* 24px */
+        }
+        h2 {
+            font-size: 2rem; /* 32px */
+            line-height: 2.5rem; /* 40px */
+            margin-bottom: 1.25rem; /* 20px */
+        }
+        h3 {
+            font-size: 1.5rem; /* 24px */
+            line-height: 2rem; /* 32px */
+            margin-bottom: 1rem; /* 16px */
+        }
+        p {
+            font-size: 1rem; /* 16px */
+            line-height: 1.75rem; /* 28px */
+            margin-bottom: 1rem; /* 16px */
+        }
+        .lead {
+            font-size: 1.25rem; /* 20px */
+            line-height: 2rem; /* 32px */
+            margin-bottom: 1rem; /* 16px */
+            font-weight: 400;
+            color: var(--muted-text-color);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem; /* 12px 24px */
+            border-radius: 0.375rem; /* 6px */
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem; /* 8px */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-hover-color);
+        }
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563; /* Darker shade of secondary */
+        }
+
+        .outline {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: transparent;
+        }
+
+        .outline:hover{
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .card {
+            background-color: var(--card-background-color);
+            border-radius: 0.5rem; /* 8px */
+            padding: 2rem; /* 32px */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+        }
+        .shadow-lg {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-link {
+          cursor: pointer;
+          padding: 0.5rem 1rem;
+          border-bottom: 2px solid transparent;
+          margin-right: 1rem;
+          color: var(--muted-text-color);
+          transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .tab-link:hover, .tab-link.active {
+          color: var(--primary-color);
+          border-color: var(--primary-color);
+        }
+
+        #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+        /* Extra стили для Mailchimp формы */
+        #mc_embed_signup form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        #mc_embed_signup input[type=email]{
+            width: 100%;
+            max-width: 300px;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid var(--border-color);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        #mc_embed_signup input[type=email]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(244, 114, 182, 0.2); /* Primary color with opacity */
+        }
+        #mc_embed_signup .mc-field-msg {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            min-height: 20px;
+        }
+        #mc_embed_signup .mc-field-msg.success {
+            color: #16a34a; /* Tailwind's green-600 */
+        }
+        #mc_embed_signup .mc-field-msg.error {
+          color: #dc2626; /* Tailwind's red-600 */
+        }
+
+    </style>
+</head>
+<body class="bg-background text-text-color dark:bg-gray-900 dark:text-gray-50">
+    <header class="py-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-heading dark:text-white">
+                EgoLinks
+            </a>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a href="#features" class="text-muted hover:text-primary transition-colors">Features</a></li>
+                    <li><a href="#examples" class="text-muted hover:text-primary transition-colors">Examples</a></li>
+                    <li><a href="#pricing" class="text-muted hover:text-primary transition-colors">Pricing</a></li>
+                    <li><a href="#templates" class="text-muted hover:text-primary transition-colors">Templates</a></li>
+                    <li><a href="#newsletter" class="text-muted hover:text-primary transition-colors">Newsletter</a></li>
+                </ul>
+            </nav>
+            <button id="theme-toggle" class="bg-gray-200 dark:bg-gray-700 rounded-full p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                <i id="theme-icon" class="fas fa-sun"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto text-center">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-heading dark:text-white" style="line-height: 1.2;">
+                    Go Beyond Links: <span class="serif">Create Your Stunning Digital Identity Hub</span>
+                </h1>
+                <p class="mt-4 text-xl text-muted dark:text-gray-300">
+                    EgoLinks empowers you to build highly customizable link pages, digital cards, resumes, portfolios, and more – all in one place. <span class="font-semibold">Free</span> and easy to start.
+                </p>
+                <div class="mt-8 flex justify-center gap-4">
+                    <a href="#" class="btn btn-primary text-white">Sign Up Free & Build Yours Now</a>
+                    <a href="#examples" class="btn btn-outline">Explore Examples</a>
+                </div>
+                <div class="mt-6 text-sm text-muted dark:text-gray-400">
+                    Free forever plan available
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-800">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-3xl sm:text-4xl font-semibold text-heading dark:text-white">Tired of Scattered Links & Generic Profiles?</h2>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-link text-3xl text-primary mb-4"></i>
+                        <p class="text-lg text-muted dark:text-gray-300">Multiple platform links difficult to manage?</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-box text-3xl text-primary mb-4"></i>
+                        <p class="text-lg text-muted dark:text-gray-300">"Link in bio" space too limited?</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-id-card text-3xl text-primary mb-4"></i>
+                        <p class="text-lg text-muted dark:text-gray-300">Want a more personalized online presence?</p>
+                    </div>
+                </div>
+                <p class="mt-8 text-2xl font-semibold text-primary dark:text-primary">EgoLinks is Here to Help!</p>
+                <p class="mt-4 text-lg text-muted dark:text-gray-300">One link for everything. One platform for stunning, custom pages that truly represent you or your brand.</p>
+            </div>
+        </section>
+
+        <section id="features" class="py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-3xl sm:text-4xl font-semibold text-heading dark:text-white mb-12">Why Choose EgoLinks?</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="feature-card bg-card dark:bg-gray-800">
+                        <i class="fas fa-palette"></i>
+                        <h3 class="text-xl font-semibold text-heading dark:text-white">Limitless Customization</h3>
+                        <p class="text-muted dark:text-gray-300">Choose themes, fonts, colors, layouts. Add custom CSS. Make your page uniquely yours.</p>
+                    </div>
+                    <div class="feature-card bg-card dark:bg-gray-800">
+                        <i class="fas fa-magic"></i>
+                        <h3 class="text-xl font-semibold text-heading dark:text-white">More Than Just Links</h3>
+                        <p class="text-muted dark:text-gray-300">Embed images, videos, contact forms, maps, music, and more. Build exactly what you need.</p>
+                    </div>
+                    <div class="feature-card bg-card dark:bg-gray-800">
+                        <i class="fas fa-users"></i>
+                        <h3 class="text-xl font-semibold text-heading dark:text-white">Perfect for Everyone</h3>
+                        <p class="text-muted dark:text-gray-300">Ideal for creators' "link in bio", professionals' digital cards/resumes, business mini-sites, resource hubs, and more.</p>
+                    </div>
+                    <div class="feature-card bg-card dark:bg-gray-800">
+                        <i class="fas fa-search"></i>
+                        <h3 class="text-xl font-semibold text-heading dark:text-white">SEO Optimized Pages</h3>
+                        <p class="text-muted dark:text-gray-300">Customize page titles and descriptions to help your audience find you on search engines.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="examples" class="py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-900">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-3xl sm:text-4xl font-semibold text-heading dark:text-white mb-12">See What You Can Build</h2>
+                 <div class="flex justify-center mb-8">
+                    <div class="tab-link active" data-tab="creator">Creator</div>
+                    <div class="tab-link" data-tab="freelancer">Freelancer</div>
+                    <div class="tab-link" data-tab="business">Business</div>
+                    <div class="tab-link" data-tab="personal">Personal</div>
+                </div>
+                <div class="tab-content active" id="creator">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-heading dark:text-white mb-4">Creator/Influencer</h3>
+                            <p class="text-lg text-muted dark:text-gray-300 mb-6">
+                                展示聚合社交媒体、最新视频、商品链接的页面。
+                            </p>
+                            <ul class="list-disc list-inside space-y-2 text-muted dark:text-gray-300">
+                                <li>Social Media Links</li>
+                                <li>Latest Videos</li>
+                                 <li>Product Links</li>
+                                <li>Event Announcements</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <img src="https://placehold.co/600x400/EEE/31343C" alt="Creator Example" class="rounded-lg shadow-lg">
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="freelancer">
+                   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-heading dark:text-white mb-4">Freelancer/Designer</h3>
+                            <p class="text-lg text-muted dark:text-gray-300 mb-6">
+                                展示作品集链接、服务列表、联系方式、在线简历的页面。
+                            </p>
+                            <ul class="list-disc list-inside space-y-2 text-muted dark:text-gray-300">
+                                <li>Portfolio Links</li>
+                                <li>Service Listings</li>
+                                <li>Contact Information</li>
+                                <li>Online Resume</li>
+                            </ul>
+                        </div>
+                        <div>
+                           <img src="https://placehold.co/600x400/EEE/31343C" alt="Freelancer Example" class="rounded-lg shadow-lg">
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="business">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-heading dark:text-white mb-4">Small Business/Local Shop</h3>
+                            <p class="text-lg text-muted dark:text-gray-300 mb-6">
+                                展示联系方式、地址地图、营业时间、产品/服务链接的页面。
+                            </p>
+                            <ul class="list-disc list-inside space-y-2 text-muted dark:text-gray-300">
+                                <li>Contact Information</li>
+                                <li>Address Map</li>
+                                <li>Business Hours</li>
+                                <li>Product/Service Links</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <img src="https://placehold.co/600x400/EEE/31343C" alt="Business Example" class="rounded-lg shadow-lg">
+                        </div>
+                    </div>
+                </div>
+                 <div class="tab-content" id="personal">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-heading dark:text-white mb-4">Personal/Resource Hub</h3>
+                            <p class="text-lg text-muted dark:text-gray-300 mb-6">
+                                展示个人兴趣链接、常用工具导航、资源分享列表的页面。
+                            </p>
+                            <ul class="list-disc list-inside space-y-2 text-muted dark:text-gray-300">
+                                <li>Personal Interest Links</li>
+                                <li>Useful Tool Navigation</li>
+                                <li>Resource Sharing List</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <img src="https://placehold.co/600x400/EEE/31343C" alt="Personal Example" class="rounded-lg shadow-lg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-3xl sm:text-4xl font-semibold text-heading dark:text-white mb-12">Get Started in 3 Simple Steps</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-user-plus text-3xl text-primary mb-4"></i>
+                        <h3 class="text-xl font-semibold text-heading dark:text-white">Step 1: Sign Up (Free)</h3>
+                        <p class="text-muted dark:text-gray-300">Create your account in seconds.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-magic text-3xl text-primary mb-4"></i>
+                        <h3 class="text-xl font-semibold text-heading dark:text-white">Step 2: Customize Your Page</h3>
+                        <p class="text-muted dark:text-gray-300">Add links, content, and design your unique style.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-share-alt text-3xl text-primary mb-4"></i>
+                        <h3 class="text-xl font-semibold text-heading dark:text-white">Step 3: Share Your Link</h3>
+                        <p class="text-muted dark:text-gray-300">Add your single EgoLinks URL to all your profiles and platforms.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="templates" class="py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-800">
+             <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-3xl sm:text-4xl font-semibold text-heading dark:text-white mb-12">Start with a Beautiful Template</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-4">
+                        <img src="https://placehold.co/400x300/EEE/31343C" alt="Template 1" class="rounded-md">
+                        <h4 class="text-lg font-semibold mt-4 text-heading dark:text-white">Template 1</h4>
+                    </div>
+                     <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-4">
+                        <img src="https://placehold.co/400x300/EEE/31343C" alt="Template 2" class="rounded-md">
+                        <h4 class="text-lg font-semibold mt-4 text-heading dark:text-white">Template 2</h4>
+                    </div>
+                     <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-4">
+                        <img src="https://placehold.co/400x300/EEE/31343C" alt="Template 3" class="rounded-md">
+                         <h4 class="text-lg font-semibold mt-4 text-heading dark:text-white">Template 3</h4>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <a href="#" class="btn btn-secondary text-white">Explore All Templates</a>
+                </div>
+             </div>
+        </section>
+
+        <section id="newsletter" class="py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-3xl sm:text-4xl font-semibold text-heading dark:text-white mb-8">
+                    Stay Updated with Our Newsletter
+                </h2>
+                <p class="text-lg text-muted dark:text-gray-300 mb-8">
+                    Subscribe to our newsletter to receive the latest news, updates, and special offers.
+                </p>
+                 <div id="mc_embed_signup">
+                    <form action="https://your-mailchimp-list-url.us1.list-manage.com/subscribe/post?u=your-user-id&amp;id=your-list-id" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <div id="mc_embed_signup_scroll">
+                            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Enter your email address" required>
+                            <div class="absolute left-[-9999px] top-0" aria-hidden="true"><input type="text" name="b_youruserid_yourlistid" tabindex="-1" value=""></div>
+                            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button btn btn-primary"></div>
+                        </div>
+                    </form>
+                </div>
+                <div id="mce-responses" class="clear mt-4">
+                    <div class="response" id="mce-error-response" style="display:none"></div>
+                    <div class="response" id="mce-success-response" style="display:none"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-6 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-muted dark:text-gray-400">© 2025 EgoLinks. All rights reserved.</p>
+             <div class="flex space-x-4">
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors">Features</a>
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors">Templates</a>
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors">Pricing</a>
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors">Blog</a>
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors">About Us</a>
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors">Contact</a>
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors">Help/FAQ</a>
+            </div>
+            <div class="flex space-x-4">
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="flex space-x-4">
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="text-muted hover:text-primary dark:text-gray-300 dark:hover:text-white transition-colors">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('theme');
+
+        if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+            body.classList.add('dark');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            if (body.classList.contains('dark')) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+
+        // Initialize Mermaid
+        mermaid.initialize({ startOnLoad: true });
+
+    </script>
+</body>
+</html>
