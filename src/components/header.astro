@@ -8,6 +8,14 @@ const navItems: Array<NavItem> = [
   { title: "Compatibility", url: "#compatibility" },
   { title: "Showcase", url: "#showcase" },
 ];
+
+const languages = [
+  { code: "en", name: "English", flag: "mdi:flag" },
+  { code: "zh", name: "中文", flag: "mdi:translate" },
+];
+
+const currentPath = Astro.url.pathname;
+const currentLang = currentPath.startsWith('/zh') ? 'zh' : 'en';
 ---
 
 <header
@@ -15,7 +23,7 @@ const navItems: Array<NavItem> = [
   class="absolute bottom-0 z-20 flex w-full items-center justify-between border-b border-transparent px-8 py-4 text-white"
 >
   <a class="flex items-center gap-3 hover:!text-default" href="#">
-    <h1 class="sr-only">Astro</h1>
+    <h1 class="sr-only">EgoLinks|EgoLinks官网 - 免费创建你的个性化链接主页_自定义数字名片与导航网站</h1>
     <img src="/favicon.svg" alt="Logo" class="size-10" />
     EgoLinks
   </a>
@@ -42,6 +50,32 @@ const navItems: Array<NavItem> = [
       >
         <Icon name="mdi:menu" class="size-8" />
       </button>
+      <div class="relative group">
+        <button
+          id="language-switcher-button"
+          type="button"
+          class="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-gray-700/20 transition-colors duration-200"
+          aria-label="Language Switcher"
+        >
+          <Icon name="mdi:translate" class="size-5" />
+          <span class="text-sm ml-1 hidden xs:inline">{currentLang === 'zh' ? '中文' : 'English'}</span>
+          <Icon name="mdi:chevron-up" class="size-4" />
+        </button>
+        <div class="absolute right-0 bottom-full mb-2 w-48 bg-default rounded-md shadow-lg overflow-hidden z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-700/50">
+          {languages.map((lang) => (
+            <a
+              href={`/${lang.code}`}
+              class={`flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-700/20 transition-colors ${currentLang === lang.code ? 'bg-primary/10 text-primary' : ''}`}
+            >
+              <Icon name={lang.flag} class="size-5" />
+              <span>{lang.name}</span>
+              {currentLang === lang.code && (
+                <Icon name="mdi:check" class="size-4 ml-auto text-primary" />
+              )}
+            </a>
+          ))}
+        </div>
+      </div>
       <ThemeSwitcher />
     </div>
     <div id="menu-modal" class="modal hidden" aria-hidden="true">
@@ -72,6 +106,23 @@ const navItems: Array<NavItem> = [
                 ))
               }
             </ul>
+            <div class="mt-6 border-t border-gray-700 pt-6">
+              <p class="text-center mb-4 text-sm text-gray-400">语言 / Language</p>
+              <div class="flex justify-center gap-4">
+                {languages.map((lang) => (
+                  <a
+                    href={`/${lang.code}`}
+                    class={`flex flex-col items-center gap-1 p-2 rounded-md hover:bg-gray-700/20 transition-colors ${currentLang === lang.code ? 'bg-primary/10 text-primary' : ''}`}
+                  >
+                    <Icon name={lang.flag} class="size-8" />
+                    <span class="text-sm">{lang.name}</span>
+                    {currentLang === lang.code && (
+                      <Icon name="mdi:check" class="size-4 text-primary mt-1" />
+                    )}
+                  </a>
+                ))}
+              </div>
+            </div>
           </nav>
         </div>
       </div>

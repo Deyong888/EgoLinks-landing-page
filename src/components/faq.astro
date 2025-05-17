@@ -1,0 +1,94 @@
+---
+import { Icon } from "astro-icon/components";
+import ContentSection from "~/components/content-section.astro";
+---
+
+<section class="py-16 px-4" id="faq">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+    <p class="text-xl text-slate-300 mb-12 text-center max-w-3xl mx-auto">Everything about EgoLinks, answered here for you</p>
+    
+    <div class="space-y-4 max-w-4xl mx-auto">
+      <!-- Question 1 -->
+      <div class="border border-slate-700 rounded-lg overflow-hidden">
+        <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+          <span class="text-lg font-medium">What is EgoLinks personal link aggregation platform?</span>
+          <i class="fas fa-chevron-down text-primary transition-transform"></i>
+        </button>
+        <div class="faq-content hidden p-5 bg-slate-800/30">
+          <p class="text-slate-300">EgoLinks is a free, highly customizable <strong>personal link aggregation</strong> service that helps you create your own <strong>link in bio</strong> page. You can showcase all your social media accounts, portfolios, projects, and important links on one page, creating a professional <strong>digital business card</strong> and personal brand image. Whether you're a creator, designer, freelancer, or business, EgoLinks can meet your needs.</p>
+        </div>
+      </div>
+      
+      <!-- Question 2 -->
+      <div class="border border-slate-700 rounded-lg overflow-hidden">
+        <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+          <span class="text-lg font-medium">What advantages does EgoLinks have over other link aggregation tools?</span>
+          <i class="fas fa-chevron-down text-primary transition-transform"></i>
+        </button>
+        <div class="faq-content hidden p-5 bg-slate-800/30">
+          <p class="text-slate-300">EgoLinks provides a truly <strong>highly customizable</strong> experience, not just changing skins, but comprehensive customization from layout to details. We offer a <strong>permanently free</strong> basic version that meets the needs of most users. Developed based on LinkStack, it has excellent scalability and stability. Additionally, we focus on user experience, providing a clean and easy-to-use interface that allows you to quickly create professional <strong>personal homepages</strong> and <strong>URL navigation</strong>.</p>
+        </div>
+      </div>
+      
+      <!-- Question 3 -->
+      <div class="border border-slate-700 rounded-lg overflow-hidden">
+        <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+          <span class="text-lg font-medium">What can I use EgoLinks for?</span>
+          <i class="fas fa-chevron-down text-primary transition-transform"></i>
+        </button>
+        <div class="faq-content hidden p-5 bg-slate-800/30">
+          <p class="text-slate-300">EgoLinks is suitable for various scenarios: creating professional <strong>digital business cards</strong> to showcase your contact information and work; making <strong>online resumes</strong> to share with recruiters; building personal <strong>portfolio</strong> display pages; creating <strong>navigation websites</strong> to integrate your commonly used tools and resources; providing a unified <strong>link collection</strong> for social media accounts (such as Instagram, TikTok, YouTube, etc.), solving the limitation of platforms that only allow one link. Whether you're a <strong>creator</strong>, designer, student, or professional, EgoLinks can meet your needs.</p>
+        </div>
+      </div>
+      
+      <!-- Question 4 -->
+      <div class="border border-slate-700 rounded-lg overflow-hidden">
+        <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+          <span class="text-lg font-medium">Do I need programming knowledge to use EgoLinks?</span>
+          <i class="fas fa-chevron-down text-primary transition-transform"></i>
+        </button>
+        <div class="faq-content hidden p-5 bg-slate-800/30">
+          <p class="text-slate-300">Absolutely not! EgoLinks is designed to be user-friendly for everyone. We provide an intuitive drag-and-drop interface and a variety of templates, allowing you to create professional <strong>personal websites</strong> without any technical knowledge. Of course, if you know some CSS, you can customize more deeply to create a truly unique <strong>personalized link homepage</strong>.</p>
+        </div>
+      </div>
+      
+      <!-- Question 5 -->
+      <div class="border border-slate-700 rounded-lg overflow-hidden">
+        <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+          <span class="text-lg font-medium">Is EgoLinks really completely free?</span>
+          <i class="fas fa-chevron-down text-primary transition-transform"></i>
+        </button>
+        <div class="faq-content hidden p-5 bg-slate-800/30">
+          <p class="text-slate-300">Yes, EgoLinks offers a powerful, permanently free basic version that meets the core needs of most users. You can create your own <strong>free personal website</strong>, add unlimited links, customize themes and layouts, and get basic visit statistics. We also offer paid upgrade options to unlock more advanced features such as custom domains, advanced analytics, and brand logo removal, but the core features are always free.</p>
+        </div>
+      </div>
+      
+      <!-- Question 6 -->
+      <div class="border border-slate-700 rounded-lg overflow-hidden">
+        <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+          <span class="text-lg font-medium">How do I start using EgoLinks to create my personal link page?</span>
+          <i class="fas fa-chevron-down text-primary transition-transform"></i>
+        </button>
+        <div class="faq-content hidden p-5 bg-slate-800/30">
+          <p class="text-slate-300">Starting with EgoLinks is very simple: first register a free account; choose a template you like or start from scratch; add your social media links, works, and projects; customize the appearance and layout; finally publish and share your <strong>personal brand</strong> link. The whole process takes just a few minutes, and you'll have a professional <strong>link sharing</strong> page. Register now and start your EgoLinks journey!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Add FAQ toggle script -->
+<script is:inline>
+  function toggleFaq(button) {
+    const content = button.nextElementSibling;
+    const icon = button.querySelector('i');
+    
+    // Toggle content display/hide
+    content.classList.toggle('hidden');
+    
+    // Toggle icon rotation
+    icon.classList.toggle('transform');
+    icon.classList.toggle('rotate-180');
+  }
+</script>

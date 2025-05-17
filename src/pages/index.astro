@@ -8,7 +8,10 @@ import Intro from "~/components/intro.astro";
 import Showcase from "~/components/showcase.astro";
 import Splash from "~/components/splash.astro";
 import Howitworks from "~/components/howitworks.astro";
+import DigitalManifesto from "~/components/digital-manifesto.astro";
+import FAQ from "~/components/faq.astro";
 import "~/styles/index.css";
+
 
 const { generator, site } = Astro;
 const image = new URL("social.jpg", site);
@@ -69,9 +72,11 @@ const description =
     <Splash />
     <div class="space-y-24 px-8 py-32">
       <Intro />
+      <DigitalManifesto />
       <Showcase />
       <Howitworks />
       <Features />
+      <FAQ />
       <Compatibility />
     </div>
     <Footer />

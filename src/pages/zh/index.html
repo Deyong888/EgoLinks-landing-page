@@ -1,756 +1,644 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EgoLinks官网 - 免费创建你的个性化链接主页_自定义数字名片与导航网站</title>
-    <meta name="description" content="EgoLinks提供免费、高度可定制的个人链接聚合服务，助你轻松制作专属的link in bio页面、数字名片、简历和网址导航。一键分享所有社交媒体、作品集与重要链接，完美展现个人品牌与数字身份。立即注册EgoLinks！">
-    <meta name="keywords" content="EgoLinks, 个人主页, 链接分享, link in bio, 个人链接聚合, 自定义链接, 导航网站制作, 数字名片制作, 免费个人网站, 个人品牌, 网址导航, 链接集合, 简历链接, 创作者主页">
-    
-    <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
-    
-    <link href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<html lang="zh" class="h-full motion-safe:scroll-smooth" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/public/favicon.svg" type="image/svg+xml" />
 
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <title>EgoLinks - 一链万象，链出本我 | 免费创建你的个性化链接主页</title>
+    <meta name="description" content="EgoLinks提供免费、高度可定制的个人链接聚合服务，助你轻松制作专属的link in bio页面、数字名片、简历和网址导航。一键分享所有社交媒体、作品集与重要链接，完美展现个人品牌与数字身份。立即注册EgoLinks！" />
+    <meta name="keywords" content="EgoLinks, 个人主页, 链接分享, link in bio, 个人链接聚合, 自定义链接, 导航网站制作, 数字名片制作, 免费个人网站, 个人品牌, 网址导航, 链接集合, 简历链接, 创作者主页" />
 
+    <!-- social media -->
+    <meta property="og:title" content="EgoLinks - 一链万象，链出本我 | 免费创建你的个性化链接主页" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="EgoLinks提供免费、高度可定制的个人链接聚合服务，助你轻松制作专属的link in bio页面、数字名片、简历和网址导航。" />
+    <meta property="og:image" content="/social.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: '#673AB7', // 活力紫作为主色调
+              secondary: '#FF7F50', // 珊瑚橙作为辅助色
+              default: '#1E293B', // 深色背景
+              muted: '#64748B' // 次要文本颜色
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- 初始化主题 -->
+    <script>
+      const themeSaved = localStorage.getItem("theme");
+
+      if (themeSaved) {
+        document.documentElement.dataset.theme = themeSaved;
+      } else {
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        document.documentElement.dataset.theme = prefersDark ? "dark" : "light";
+      }
+
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (event) => {
+          if (!localStorage.getItem("theme")) {
+            document.documentElement.dataset.theme = event.matches
+              ? "dark"
+              : "light";
+          }
+        });
+    </script>
+    
     <style>
-        /* 基本样式和字体定义 */
-        body {
-            font-family: 'Noto Sans SC', Tahoma, Arial, Roboto, "Droid Sans", "Helvetica Neue", "Droid Sans Fallback", "Heiti SC", "Hiragino Sans GB", Simsun, sans-serif;
-            @apply bg-slate-50 text-slate-800 transition-colors duration-300;
-        }
-        .dark body {
-            @apply bg-slate-900 text-slate-200;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Noto Serif SC', serif;
-            @apply font-semibold;
-        }
-        
-        /* 自定义主题色 */
-        :root {
-            --primary-color: #0891B2; /* Cyan 600 */
-            --primary-hover-color: #06B6D4; /* Cyan 500 */
-            --secondary-color: #F59E0B; /* Amber 500 */
-            --secondary-hover-color: #FBBF24; /* Amber 400 */
-
-            --text-primary-light: #1E293B; /* Slate 800 */
-            --text-secondary-light: #475569; /* Slate 600 */
-            --bg-light: #F8FAFC; /* Slate 50 */
-            --card-bg-light: #FFFFFF;
-
-            --text-primary-dark: #F1F5F9; /* Slate 100 */
-            --text-secondary-dark: #94A3B8; /* Slate 400 */
-            --bg-dark: #0F172A; /* Slate 900 */
-            --card-bg-dark: #1E293B; /* Slate 800 */
-        }
-
-        .bg-primary { background-color: var(--primary-color); }
-        .hover\:bg-primary-hover:hover { background-color: var(--primary-hover-color); }
-        .text-primary { color: var(--primary-color); }
-        .border-primary { border-color: var(--primary-color); }
-
-        .bg-secondary { background-color: var(--secondary-color); }
-        .hover\:bg-secondary-hover:hover { background-color: var(--secondary-hover-color); }
-        .text-secondary { color: var(--secondary-color); }
-
-        .text-content-primary { @apply text-slate-800 dark:text-slate-100; }
-        .text-content-secondary { @apply text-slate-600 dark:text-slate-400; }
-        .bg-background { @apply bg-slate-50 dark:bg-slate-900; }
-        .bg-card { @apply bg-white dark:bg-slate-800; }
-        .border-card { @apply border-slate-200 dark:border-slate-700; }
-
-        /* 微交互效果 */
-        .btn {
-            @apply px-6 py-3 rounded-lg font-medium shadow-md transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg;
-        }
-        .btn-primary {
-            @apply bg-primary text-white hover:bg-primary-hover;
-        }
-        .btn-secondary {
-            @apply bg-secondary text-white hover:bg-secondary-hover;
-        }
-        .btn-outline {
-            @apply border-2 border-primary text-primary hover:bg-primary hover:text-white;
-        }
-
-        .feature-card {
-            @apply bg-card p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1;
-        }
-
-        /* 滚动动画 (简单实现，可配合 Intersection Observer 增强) */
-        .scroll-animate {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .scroll-animate.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* 导航栏固定时的背景模糊效果 (可选) */
-        .nav-sticky {
-            @apply fixed top-0 left-0 right-0 z-50 bg-opacity-80 backdrop-filter backdrop-blur-lg shadow-md;
-            /* Light mode sticky nav background */
-            @apply bg-slate-50; 
-            /* Dark mode sticky nav background */
-            @apply dark:bg-slate-900;
-        }
-
-        /* Mermaid diagram styling */
-        .mermaid-container {
-            @apply bg-card p-4 sm:p-6 rounded-xl shadow-lg my-8;
-        }
-        .mermaid svg {
-            @apply mx-auto; /* Center the SVG */
-        }
-         /* Mobile Menu - 优化移动端菜单 */
-        #mobile-menu {
-            @apply fixed inset-0 z-40 transform -translate-x-full transition-transform duration-300 ease-in-out;
-            @apply bg-slate-100 dark:bg-slate-800 p-6;
-            @apply overflow-y-auto; /* 允许滚动 */
-        }
-        #mobile-menu.open {
-            @apply translate-x-0;
-        }
-        
-        /* 移动端优化 */
-        @media (max-width: 640px) {
-            .btn {
-                @apply px-4 py-2 text-base;
-            }
-            h1 {
-                @apply text-3xl;
-            }
-            h2 {
-                @apply text-2xl;
-            }
-            .feature-card {
-                @apply p-4;
-            }
-        }
-        
-        /* 图片加载优化 */
-        img {
-            @apply transition-opacity duration-300;
-        }
-        img.lazy-load {
-            @apply opacity-0;
-        }
-        img.loaded {
-            @apply opacity-100;
-        }
-
+      /* 自定义样式 */
+      .gradient-text {
+        background: linear-gradient(to right, #673AB7, #FF7F50);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      #starfield {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+      
+      #starfield-canvas {
+        width: 100%;
+        height: 100%;
+      }
     </style>
-</head>
-<body class="bg-background text-content-primary antialiased">
+  </head>
+  <body class="h-full overflow-x-hidden bg-slate-900 text-white text-base">
+    <script>
+      // 星空背景动画
+      document.addEventListener('DOMContentLoaded', () => {
+        const COUNT = 800;
+        const SPEED = 0.1;
 
-    <button id="theme-toggle" type="button" class="fixed top-4 right-4 z-50 p-2 rounded-full bg-card shadow-md text-content-primary hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-        <i class="fas fa-sun text-amber-500 hidden dark:inline"></i>
-        <i class="fas fa-moon text-indigo-500 inline dark:hidden"></i>
-    </button>
+        class Star {
+          constructor(x = 0, y = 0, z = 0) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.xPrev = x;
+            this.yPrev = y;
+          }
 
-    <header id="main-header" class="py-4 transition-all duration-300">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <a href="#" class="text-3xl font-bold text-primary">
-                EgoLinks
-            </a>
-            <nav class="hidden md:flex space-x-6 items-center">
-                <a href="#features" class="text-content-secondary hover:text-primary transition-colors">核心功能</a>
-                <a href="#templates" class="text-content-secondary hover:text-primary transition-colors">模板展示</a>
-                <a href="#why-us" class="text-content-secondary hover:text-primary transition-colors">为何选择</a>
-                <a href="#resources" class="text-content-secondary hover:text-primary transition-colors">精选资源</a>
-                <a href="#" class="text-content-secondary hover:text-primary transition-colors">登录</a>
-                <a href="#" class="btn btn-primary">免费注册</a>
+          update(width, height, speed) {
+            this.xPrev = this.x;
+            this.yPrev = this.y;
+            this.z += speed * 0.0675;
+            this.x += this.x * (speed * 0.0225) * this.z;
+            this.y += this.y * (speed * 0.0225) * this.z;
+            if (
+              this.x > width / 2 ||
+              this.x < -width / 2 ||
+              this.y > height / 2 ||
+              this.y < -height / 2
+            ) {
+              this.x = Math.random() * width - width / 2;
+              this.y = Math.random() * height - height / 2;
+              this.xPrev = this.x;
+              this.yPrev = this.y;
+              this.z = 0;
+            }
+          }
+
+          draw(ctx) {
+            ctx.lineWidth = this.z;
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.xPrev, this.yPrev);
+            ctx.stroke();
+          }
+        }
+
+        const stars = Array.from({ length: COUNT }, () => new Star(0, 0, 0));
+        let rafId = 0;
+
+        const canvas = document.querySelector('#starfield-canvas');
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        const container = document.querySelector('#starfield');
+        if (!container) return;
+        
+        const resizeObserver = new ResizeObserver(setup);
+        resizeObserver.observe(container);
+
+        function setup() {
+          rafId > 0 && cancelAnimationFrame(rafId);
+
+          const { clientWidth: width, clientHeight: height } = container;
+          const dpr = window.devicePixelRatio || 1;
+          canvas.width = width * dpr;
+          canvas.height = height * dpr;
+          canvas.style.width = `${width}px`;
+          canvas.style.height = `${height}px`;
+          ctx.scale(dpr, dpr);
+
+          for (const star of stars) {
+            star.x = Math.random() * width - width / 2;
+            star.y = Math.random() * height - height / 2;
+            star.z = 0;
+          }
+
+          ctx.translate(width / 2, height / 2);
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+          ctx.strokeStyle = 'white';
+          rafId = requestAnimationFrame(frame);
+        }
+
+        function frame() {
+          const { clientWidth: width, clientHeight: height } = container;
+
+          ctx.fillRect(-width / 2, -height / 2, width, height);
+
+          for (const star of stars) {
+            star.update(width, height, SPEED);
+            star.draw(ctx);
+          }
+
+          rafId = requestAnimationFrame(frame);
+        }
+      });
+    </script>
+    <!-- 导航栏 -->
+    <header id="page-header" class="fixed top-0 z-20 w-full bg-slate-900/80 backdrop-blur-sm border-b border-slate-800 px-8 py-4">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <a class="flex items-center gap-3 hover:text-primary" href="https://www.egolinks.online">
+          <img src="./favicon.svg" alt="Logo" class="w-10 h-10" />
+          <span class="text-xl font-bold">EgoLinks</span>
+        </a>
+        <div>
+          <div class="flex items-center gap-6">
+            <nav class="hidden md:block">
+              <ul class="flex items-center gap-6">
+                <li><a class="text-sm hover:text-primary" href="#intro">核心功能</a></li>
+                <li><a class="text-sm hover:text-primary" href="#showcase">模板展示</a></li>
+                <li><a class="text-sm hover:text-primary" href="#why-choose">为何选择我们</a></li>
+              </ul>
             </nav>
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-content-primary focus:outline-none">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-    
-    <div id="mobile-menu">
-        <div class="flex justify-between items-center mb-8">
-            <a href="#" class="text-3xl font-bold text-primary">EgoLinks</a>
-            <button id="mobile-menu-close-button" class="text-content-primary focus:outline-none">
-                <i class="fas fa-times text-2xl"></i>
+            <button id="open-nav-button" type="button" class="md:hidden" aria-label="导航">
+              <i class="fas fa-bars text-2xl"></i>
             </button>
+            <!-- 语言切换器 -->
+            <div class="relative group mr-2">
+              <button class="flex items-center text-sm px-3 py-2 rounded border border-slate-600 hover:border-primary hover:text-primary">
+                <i class="fas fa-globe mr-2"></i>
+                <span>中文</span>
+                <i class="fas fa-chevron-down ml-2 text-xs"></i>
+              </button>
+              <div class="absolute right-0 mt-2 w-32 bg-slate-800 rounded-md shadow-lg overflow-hidden z-20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                <a href="../zh" class="block px-4 py-2 text-sm text-white hover:bg-primary hover:text-white border-l-2 border-primary">
+                  <i class="fas fa-check mr-2"></i>中文
+                </a>
+                <a href="../en" class="block px-4 py-2 text-sm text-white hover:bg-primary hover:text-white">
+                  <i class="fas fa-globe mr-2"></i>English
+                </a>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <a href="https://egolinks.online/login" class="text-sm px-4 py-2 rounded border border-slate-600 hover:border-primary hover:text-primary">登录</a>
+              <a href="https://egolinks.online/register" class="text-sm px-4 py-2 rounded bg-primary hover:bg-opacity-80">注册</a>
+            </div>
+          </div>
         </div>
-        <nav class="flex flex-col space-y-4">
-            <a href="#features" class="text-lg text-content-secondary hover:text-primary transition-colors mobile-menu-link">核心功能</a>
-            <a href="#templates" class="text-lg text-content-secondary hover:text-primary transition-colors mobile-menu-link">模板展示</a>
-            <a href="#why-us" class="text-lg text-content-secondary hover:text-primary transition-colors mobile-menu-link">为何选择</a>
-            <a href="#resources" class="text-lg text-content-secondary hover:text-primary transition-colors mobile-menu-link">精选资源</a>
-            <a href="#" class="text-lg text-content-secondary hover:text-primary transition-colors mobile-menu-link">登录</a>
-            <a href="#" class="btn btn-primary w-full mt-4 mobile-menu-link">免费注册</a>
-        </nav>
+      </div>
+    </header>
+
+    <!-- Hero区域 -->
+    <section class="relative h-screen bg-black">
+      <div id="starfield">
+        <canvas id="starfield-canvas"></canvas>
+      </div>
+      <div class="relative grid h-full place-items-center max-w-7xl mx-auto px-8 pt-20 md:grid-cols-2">
+        <div class="flex flex-col items-center gap-4 text-center md:items-start md:text-left">
+          <img src="/favicon.svg" alt="EgoLinks Logo" class="w-20 h-20 md:w-32 md:h-32" />
+          <h1 class="gradient-text font-extrabold tracking-tighter text-5xl md:text-7xl">
+            一链万象<br />链出本我
+          </h1>
+          <p class="text-lg text-slate-300 mt-4 max-w-xl">
+            免费、高度可定制的个人链接聚合平台，聚合你的精彩，定义你的链接。
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 mt-8">
+            <a href="https://egolinks.online/register" class="px-8 py-4 bg-primary rounded-lg text-white font-bold hover:bg-opacity-80 text-center">
+              <i class="fas fa-rocket mr-2"></i>立即免费注册
+            </a>
+            <a href="#features" class="px-8 py-4 border border-white/20 rounded-lg hover:border-primary hover:text-primary text-center">
+              <i class="fas fa-info-circle mr-2"></i>了解更多
+            </a>
+          </div>
+        </div>
+        <div class="hidden md:block w-full max-w-lg">
+          <img src="./src/assets/astronaut.png" alt="EgoLinks展示" class="w-full h-auto" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 主要内容区域 -->
+    <div class="space-y-24 px-8 py-32 max-w-7xl mx-auto">
+      <!-- 痛点与解决方案 -->
+      <section id="intro" class="text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12">还在为这些烦恼吗？</h2>
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="flex flex-col items-center p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all">
+            <i class="fas fa-link text-3xl text-primary mb-4"></i>
+            <p class="text-lg text-slate-300">社交平台只能放一个链接？</p>
+          </div>
+          <div class="flex flex-col items-center p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all">
+            <i class="fas fa-box text-3xl text-primary mb-4"></i>
+            <p class="text-lg text-slate-300">作品、项目、联系方式散落各处？</p>
+          </div>
+          <div class="flex flex-col items-center p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all">
+            <i class="fas fa-id-card text-3xl text-primary mb-4"></i>
+            <p class="text-lg text-slate-300">想做个人网站但太复杂、成本高？</p>
+          </div>
+        </div>
+        <div class="mt-12">
+          <h3 class="text-2xl font-bold text-primary mb-4">EgoLinks 为你而来！</h3>
+          <p class="text-xl max-w-3xl mx-auto text-slate-300">
+            一站式聚合、极致个性化、简单易用、永久免费（基础版）。
+          </p>
+        </div>
+        
+        <!-- 数字自白书卡片 -->
+        <div class="mt-16 max-w-4xl mx-auto">
+          <div class="p-8 md:p-10 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/90 border border-slate-700 shadow-lg hover:shadow-primary/20 transition-all duration-300">
+            <h3 class="text-2xl md:text-3xl font-bold gradient-text mb-8 text-center leading-tight">数字自白书：用链接铸造新时代的宣言图腾</h3>
+            <div class="relative">
+              <div class="absolute -top-6 -left-6 w-12 h-12 text-4xl text-primary opacity-40">
+                <i class="fas fa-quote-left"></i>
+              </div>
+              <div class="space-y-6 text-slate-300 text-lg md:text-xl italic leading-relaxed tracking-wide">
+                <p class="font-medium">在信息洪流中，<span class="text-white">每个人都是手持碎片化痕迹的游牧者</span>。</p>
+                <p>EgoLinks将散落于<span class="text-primary font-semibold">15</span>个平台的数字遗迹——博客、歌单、代码仓库或加密艺术——<span class="text-white font-medium">熔炼为专属的精神徽章</span>。</p>
+                <p>这里，暗黑界面是反叛者的羊皮卷，悬浮粒子是未来派的星图，<span class="text-white font-medium">链接的排列组合即灵魂的拓扑学</span>。</p>
+                <p>当量子笔记与AI诗画共振，当基因日志与星系图腾共舞，算法将解译宣言的摩斯密码，为数字荒原上的独行者搭建部落篝火。</p>
+                <p class="text-white font-medium">你的<span class="text-secondary">378</span>枚书签无需沉睡，<span class="text-secondary">2145</span>条碎片不必漂泊，此刻它们将聚合成破开混沌的宣言之剑，在数据旷野烙印独属你的人格史诗。</p>
+              </div>
+              <div class="absolute -bottom-6 -right-6 w-12 h-12 text-4xl text-primary opacity-40">
+                <i class="fas fa-quote-right"></i>
+              </div>
+            </div>
+            <div class="mt-10 text-center">
+              <a href="https://egolinks.online/register" class="inline-block px-8 py-4 bg-primary/20 hover:bg-primary/30 text-primary border border-primary/30 rounded-lg transition-all duration-300 transform hover:scale-105">
+                <i class="fas fa-feather-alt mr-2"></i>创建你的数字宣言
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 核心功能展示 -->
+      <section id="features" class="text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">EgoLinks 如何助你脱颖而出？</h2>
+        <p class="text-xl text-slate-300 mb-12">强大功能，释放你的数字魅力</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+            <i class="fas fa-palette text-3xl text-primary mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">极致个性化定制</h3>
+            <p class="text-slate-300">海量模板，拖拽操作，自定义CSS，打造独一无二的视觉风格。</p>
+          </div>
+          
+          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+            <i class="fas fa-cubes text-3xl text-primary mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">丰富内容模块</h3>
+            <p class="text-slate-300">不止链接，图文影音全包括，动态展示你的每一面。</p>
+          </div>
+          
+          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+            <i class="fas fa-sitemap text-3xl text-primary mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">多场景应用</h3>
+            <p class="text-slate-300">无论是个人品牌展示、求职、项目推广，EgoLinks都能满足。</p>
+          </div>
+          
+          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+            <i class="fas fa-share-alt text-3xl text-primary mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">一键分享与追踪</h3>
+            <p class="text-slate-300">轻松分享至各大平台，内置数据分析，效果尽在掌握。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 用户案例/模板展示 -->
+      <section id="showcase" class="text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">发现灵感</h2>
+        <p class="text-xl text-slate-300 mb-12">看看他们如何使用 EgoLinks</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- 模板1 -->
+          <div class="rounded-lg overflow-hidden bg-slate-800/50 hover:bg-slate-800 transition-all">
+            <div class="h-64 bg-gradient-to-r from-purple-500 to-pink-500"><img src="./src/assets/astronaut.png" alt="EgoLinks展示" class="w-auto h-auto" /></div>
+            <div class="p-4">
+              <h3 class="text-lg font-bold">创作者主页</h3>
+              <p class="text-slate-300">适合内容创作者展示作品和社交媒体</p>
+            </div>
+          </div>
+          
+          <!-- 模板2 -->
+          <div class="rounded-lg overflow-hidden bg-slate-800/50 hover:bg-slate-800 transition-all">
+            <div class="h-64 bg-gradient-to-r from-blue-500 to-teal-500"><img src="./src/assets/astronaut.png" alt="EgoLinks展示" class="w-full h-auto" /></div>
+            <div class="p-4">
+              <h3 class="text-lg font-bold">专业简历</h3>
+              <p class="text-slate-300">展示专业技能和项目经验</p>
+            </div>
+          </div>
+          
+          <!-- 模板3 -->
+          <div class="rounded-lg overflow-hidden bg-slate-800/50 hover:bg-slate-800 transition-all">
+            <div class="h-64 bg-gradient-to-r from-amber-500 to-red-500"><img src="./src/assets/astronaut.png" alt="EgoLinks展示" class="w-full h-auto" /></div>
+            <div class="p-4">
+              <h3 class="text-lg font-bold">资源导航</h3>
+              <p class="text-slate-300">整合分享有价值的工具和资源</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-8">
+          <a href="#" class="px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-all">
+            探索更多模板
+          </a>
+        </div>
+      </section>
+
+      <!-- 为何选择 EgoLinks -->
+      <section id="why-choose" class="text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12">为何选择 EgoLinks？</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+            <i class="fas fa-paint-brush text-3xl text-primary mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">真·高度定制</h3>
+            <p class="text-slate-300">不只是换皮肤，从布局到细节，真正实现你的创意。</p>
+          </div>
+          
+          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+            <i class="fas fa-gift text-3xl text-primary mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">永久免费基础版</h3>
+            <p class="text-slate-300">核心功能永久免费，满足你的基本需求。</p>
+          </div>
+          
+          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+            <i class="fas fa-rocket text-3xl text-primary mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">面向未来的扩展性</h3>
+            <p class="text-slate-300">基于LinkStack，持续迭代，功能不断增强。</p>
+          </div>
+          
+          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+            <i class="fas fa-heart text-3xl text-primary mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">专注用户体验</h3>
+            <p class="text-slate-300">简洁易用，快速上手，我们倾听你的声音。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- EgoLinks 常见问题 -->
+      <section class="py-16 px-4" id="faq">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">常见问题</h2>
+          <p class="text-xl text-slate-300 mb-12 text-center max-w-3xl mx-auto">关于EgoLinks的一切，这里为你解答</p>
+          
+          <div class="space-y-4 max-w-4xl mx-auto">
+            <!-- 问题1 -->
+            <div class="border border-slate-700 rounded-lg overflow-hidden">
+              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+                <span class="text-lg font-medium">什么是EgoLinks个人链接聚合平台？</span>
+                <i class="fas fa-chevron-down text-primary transition-transform"></i>
+              </button>
+              <div class="faq-content hidden p-5 bg-slate-800/30">
+                <p class="text-slate-300">EgoLinks是一个免费、高度可定制的<strong>个人链接聚合</strong>服务，帮助你创建专属的<strong>link in bio</strong>页面。你可以在一个页面上集中展示所有社交媒体账号、作品集、项目和重要链接，打造专业的<strong>数字名片</strong>和个人品牌形象。无论你是创作者、设计师、自由职业者还是企业，EgoLinks都能满足你的需求。</p>
+              </div>
+            </div>
+            
+            <!-- 问题2 -->
+            <div class="border border-slate-700 rounded-lg overflow-hidden">
+              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+                <span class="text-lg font-medium">EgoLinks与其他链接聚合工具相比有什么优势？</span>
+                <i class="fas fa-chevron-down text-primary transition-transform"></i>
+              </button>
+              <div class="faq-content hidden p-5 bg-slate-800/30">
+                <p class="text-slate-300">EgoLinks提供真正的<strong>高度定制</strong>体验，不仅仅是换皮肤，而是从布局到细节的全面自定义。我们提供<strong>永久免费</strong>的基础版本，满足大多数用户需求。基于LinkStack开发，具有出色的扩展性和稳定性。此外，我们专注于用户体验，提供简洁易用的界面，让你能快速创建专业的<strong>个人主页</strong>和<strong>网址导航</strong>。</p>
+              </div>
+            </div>
+            
+            <!-- 问题3 -->
+            <div class="border border-slate-700 rounded-lg overflow-hidden">
+              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+                <span class="text-lg font-medium">我可以用EgoLinks做什么？</span>
+                <i class="fas fa-chevron-down text-primary transition-transform"></i>
+              </button>
+              <div class="faq-content hidden p-5 bg-slate-800/30">
+                <p class="text-slate-300">EgoLinks适用于多种场景：创建专业的<strong>数字名片</strong>展示你的联系方式和作品；制作<strong>在线简历</strong>链接分享给招聘方；搭建个人<strong>作品集</strong>展示页面；创建<strong>导航网站</strong>整合你常用的工具和资源；为社交媒体账号（如微博、小红书、B站等）提供统一的<strong>链接集合</strong>，解决平台只能放一个链接的限制。无论你是<strong>创作者</strong>、设计师、学生还是专业人士，EgoLinks都能满足你的需求。</p>
+              </div>
+            </div>
+            
+            <!-- 问题4 -->
+            <div class="border border-slate-700 rounded-lg overflow-hidden">
+              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+                <span class="text-lg font-medium">使用EgoLinks需要具备编程知识吗？</span>
+                <i class="fas fa-chevron-down text-primary transition-transform"></i>
+              </button>
+              <div class="faq-content hidden p-5 bg-slate-800/30">
+                <p class="text-slate-300">完全不需要！EgoLinks设计为对所有人友好的平台。我们提供直观的拖拽界面和丰富的模板，让你无需任何技术知识就能创建专业的<strong>个人网站</strong>。当然，如果你懂一些CSS，还可以进行更深度的自定义，打造真正独一无二的<strong>个性化链接主页</strong>。</p>
+              </div>
+            </div>
+            
+            <!-- 问题5 -->
+            <div class="border border-slate-700 rounded-lg overflow-hidden">
+              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+                <span class="text-lg font-medium">EgoLinks真的完全免费吗？</span>
+                <i class="fas fa-chevron-down text-primary transition-transform"></i>
+              </button>
+              <div class="faq-content hidden p-5 bg-slate-800/30">
+                <p class="text-slate-300">是的，EgoLinks提供功能强大的永久免费基础版，满足大多数用户的核心需求。你可以创建自己的<strong>免费个人网站</strong>，添加无限链接，自定义主题和布局，并获得基本的访问统计。我们也提供付费升级选项，解锁更多高级功能，如自定义域名、高级分析、移除品牌标识等，但核心功能永远免费。</p>
+              </div>
+            </div>
+            
+            <!-- 问题6 -->
+            <div class="border border-slate-700 rounded-lg overflow-hidden">
+              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
+                <span class="text-lg font-medium">如何开始使用EgoLinks创建我的个人链接页面？</span>
+                <i class="fas fa-chevron-down text-primary transition-transform"></i>
+              </button>
+              <div class="faq-content hidden p-5 bg-slate-800/30">
+                <p class="text-slate-300">开始使用EgoLinks非常简单：首先注册一个免费账号；选择你喜欢的模板或从头开始创建；添加你的社交媒体链接、作品和项目；自定义外观和布局；最后发布并分享你的<strong>个人品牌</strong>链接。整个过程只需几分钟，你就能拥有一个专业的<strong>链接分享</strong>页面。立即注册，开启你的EgoLinks之旅！</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 添加FAQ切换脚本 -->
+      <script>
+        function toggleFaq(button) {
+          const content = button.nextElementSibling;
+          const icon = button.querySelector('i');
+          
+          // 切换内容显示/隐藏
+          content.classList.toggle('hidden');
+          
+          // 切换图标旋转
+          icon.classList.toggle('transform');
+          icon.classList.toggle('rotate-180');
+        }
+      </script>
+
+      <!-- 行动召唤区域 -->
+      <section class="text-center py-16 px-4 rounded-2xl bg-gradient-to-r from-purple-900/50 to-pink-900/50">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">准备好打造你的专属数字链接中心了吗？</h2>
+        <p class="text-xl text-slate-300 mb-8 max-w-3xl mx-auto">
+          立即加入成千上万人的选择，EgoLinks 让世界更好地认识你。
+        </p>
+        <a href="https://egolinks.online/register" class="px-8 py-4 bg-primary rounded-lg text-white font-bold text-lg hover:bg-opacity-80 inline-block">
+          立即免费注册 EgoLinks
+        </a>
+      </section>
     </div>
 
+    <!-- 页脚 -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-12 px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <a class="flex items-center gap-3 mb-4" href="#">
+              <img src="/favicon.svg" alt="Logo" class="w-10 h-10" />
+              <span class="text-xl font-bold">EgoLinks</span>
+            </a>
+            <p class="text-slate-400">一链万象，链出本我。</p>
+          </div>
+          
+          <div>
+            <h3 class="text-lg font-bold mb-4">产品</h3>
+            <ul class="space-y-2">
+              <li><a href="https://linktoai.top" class="text-slate-400 hover:text-primary">AI未来城</a></li>
+              <li><a href="https://chatallais.com" class="text-slate-400 hover:text-primary">星界AI</a></li>
+              <li><a href="https://24kwebgames.com" class="text-slate-400 hover:text-primary">24K Web Games</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 class="text-lg font-bold mb-4">资源</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-slate-400 hover:text-primary">博客</a></li>
+              <li><a href="#" class="text-slate-400 hover:text-primary">帮助中心</a></li>
+              <li><a href="" class="text-slate-400 hover:text-primary"></a></li>
+            </ul>
+          </div>
+        
 
-    <section class="py-16 md:py-24 bg-gradient-to-br from-cyan-50 dark:from-slate-800 via-transparent to-transparent">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-content-primary mb-6 leading-tight scroll-animate">
-                EgoLinks: <span class="text-primary">一链万象</span>，链出本我。
-            </h1>
-            <p class="text-lg sm:text-xl text-content-secondary mb-10 max-w-2xl mx-auto scroll-animate" style="animation-delay: 0.2s;">
-                免费、高度可定制的个人链接聚合平台，助你整合所有在线身份，一键分享你的精彩。
-            </p>
-            <div class="scroll-animate" style="animation-delay: 0.4s;">
-                <a href="#" class="btn btn-primary text-lg">立即免费创建</a>
-                <a href="#features" class="btn btn-outline text-lg ml-4">了解更多</a>
-            </div>
-            <div class="mt-12 md:mt-16 max-w-4xl mx-auto scroll-animate" style="animation-delay: 0.6s;">
-                <img src="https://placehold.co/1000x600/E2E8F0/4A5568?text=EgoLinks+%E7%B2%BE%E7%BE%8E%E9%A1%B5%E9%9D%A2%E7%A4%BA%E4%BE%8B" alt="EgoLinks 页面在桌面和移动设备上的展示" class="rounded-xl shadow-2xl object-cover">
-                </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">法律</h3>
+            <ul class="space-y-2">
+              <li><a href="https://egolinks.online/pages/%E6%9D%A1%E6%AC%BE" class="text-slate-400 hover:text-primary">服务条款</a></li>
+              <li><a href="https://egolinks.online/pages/%E9%9A%90%E7%A7%81" class="text-slate-400 hover:text-primary">隐私政策</a></li>
+            </ul>
+          </div>
         </div>
-    </section>
-
-    <section class="py-16 md:py-24">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 md:mb-16">
-                <h2 class="text-3xl sm:text-4xl font-bold text-content-primary mb-4 scroll-animate">还在为这些烦恼吗？</h2>
-                <p class="text-lg text-content-secondary max-w-xl mx-auto scroll-animate" style="animation-delay: 0.2s;">EgoLinks 为你而来，一站式解决你的数字身份展示难题。</p>
-            </div>
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div class="space-y-6 scroll-animate" style="animation-delay: 0.3s;">
-                    <div class="flex items-start space-x-4">
-                        <i class="fas fa-link-slash text-3xl text-secondary mt-1"></i>
-                        <div>
-                            <h3 class="text-xl font-semibold text-content-primary mb-1">社交平台链接单一？</h3>
-                            <p class="text-content-secondary">主流平台"Link in bio"位置有限，无法全面展示你的多面身份和所有重要内容。</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <i class="fas fa-puzzle-piece text-3xl text-secondary mt-1"></i>
-                        <div>
-                            <h3 class="text-xl font-semibold text-content-primary mb-1">信息散落各处？</h3>
-                            <p class="text-content-secondary">作品集、项目经验、联系方式、不同社交账号... 用户需要跳转多次才能了解你。</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <i class="fas fa-paint-brush-alt text-3xl text-secondary mt-1"></i>
-                        <div>
-                            <h3 class="text-xl font-semibold text-content-primary mb-1">工具不够个性化？</h3>
-                            <p class="text-content-secondary">现有工具模板化严重，难以真正体现你的品牌特色和个人风格。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="scroll-animate" style="animation-delay: 0.5s;">
-                    <img src="https://placehold.co/600x450/E2E8F0/4A5568?text=%E7%94%A8%E6%88%B7%E7%97%9B%E7%82%B9%E8%A7%86%E8%A7%89%E5%8C%96" alt="用户痛点视觉化" class="rounded-xl shadow-xl object-cover">
-                </div>
-            </div>
+        
+        <div class="mt-12 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center">
+          <p class="text-slate-400">© 2025 EgoLinks. 保留所有权利. Powered by 麒麟剑 </p>
+          <div class="flex space-x-4 mt-4 md:mt-0">
+            <a href="#" class="text-slate-400 hover:text-primary"><i class="fab fa-weixin text-xl"></i></a>
+            <a href="#" class="text-slate-400 hover:text-primary"><i class="fab fa-weibo text-xl"></i></a>
+            <a href="#" class="text-slate-400 hover:text-primary"><i class="fab fa-bilibili text-xl"></i></a>
+          </div>
         </div>
-    </section>
-
-    <section id="features" class="py-16 md:py-24 bg-slate-100 dark:bg-slate-800">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 md:mb-16">
-                <h2 class="text-3xl sm:text-4xl font-bold text-content-primary mb-4 scroll-animate">EgoLinks 如何助你脱颖而出？</h2>
-                <p class="text-lg text-content-secondary max-w-xl mx-auto scroll-animate" style="animation-delay: 0.2s;">强大功能，释放你的数字魅力，连接无限可能。</p>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="feature-card scroll-animate" style="animation-delay: 0.3s;">
-                    <div class="text-4xl text-primary mb-4"><i class="fas fa-palette"></i></div>
-                    <h3 class="text-2xl font-semibold text-content-primary mb-2">极致个性化定制</h3>
-                    <p class="text-content-secondary">海量模板，拖拽操作，自定义CSS，从颜色、字体到布局，打造独一无二的视觉风格。</p>
-                </div>
-                <div class="feature-card scroll-animate" style="animation-delay: 0.4s;">
-                    <div class="text-4xl text-primary mb-4"><i class="fas fa-cubes"></i></div>
-                    <h3 class="text-2xl font-semibold text-content-primary mb-2">丰富内容模块</h3>
-                    <p class="text-content-secondary">不止链接，图文影音、社交动态、联系表单、倒计时等模块，动态展示你的每一面。</p>
-                </div>
-                <div class="feature-card scroll-animate" style="animation-delay: 0.5s;">
-                    <div class="text-4xl text-primary mb-4"><i class="fas fa-id-card"></i></div>
-                    <h3 class="text-2xl font-semibold text-content-primary mb-2">多场景应用</h3>
-                    <p class="text-content-secondary">数字名片、在线简历、作品集、工具导航、资源聚合，满足你多样化的展示需求。</p>
-                </div>
-                <div class="feature-card scroll-animate" style="animation-delay: 0.6s;">
-                    <div class="text-4xl text-primary mb-4"><i class="fas fa-share-alt"></i></div>
-                    <h3 class="text-2xl font-semibold text-content-primary mb-2">一键分享与追踪</h3>
-                    <p class="text-content-secondary">轻松分享至各大社交平台和通讯应用，内置数据分析，效果尽在掌握。</p>
-                </div>
-                <div class="feature-card scroll-animate" style="animation-delay: 0.7s;">
-                    <div class="text-4xl text-primary mb-4"><i class="fas fa-mobile-alt"></i></div>
-                    <h3 class="text-2xl font-semibold text-content-primary mb-2">全端完美响应</h3>
-                    <p class="text-content-secondary">无论桌面、平板还是手机，你的EgoLinks页面都能完美呈现，提供一致的优质体验。</p>
-                </div>
-                <div class="feature-card scroll-animate" style="animation-delay: 0.8s;">
-                    <div class="text-4xl text-primary mb-4"><i class="fas fa-shield-alt"></i></div>
-                    <h3 class="text-2xl font-semibold text-content-primary mb-2">安全稳定快速</h3>
-                    <p class="text-content-secondary">基于LinkStack优化，我们注重数据安全与访问速度，为你的数字身份保驾护航。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="templates" class="py-16 md:py-24">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 md:mb-16">
-                <h2 class="text-3xl sm:text-4xl font-bold text-content-primary mb-4 scroll-animate">发现灵感，遇见心动模板</h2>
-                <p class="text-lg text-content-secondary max-w-xl mx-auto scroll-animate" style="animation-delay: 0.2s;">我们为不同身份和场景精心设计了多款模板，助你快速开启个性化之旅。</p>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-card rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 scroll-animate" style="animation-delay: 0.3s;">
-                    <img src="https://placehold.co/600x400/0891B2/FFFFFF?text=%E5%88%9B%E4%BD%9C%E8%80%85%E6%A8%A1%E6%9D%BF" alt="创作者模板" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-content-primary mb-2">创作者模板</h3>
-                        <p class="text-content-secondary text-sm">适合博主、KOL、艺术家，集中展示作品、社交媒体和合作入口。</p>
-                    </div>
-                </div>
-                <div class="bg-card rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 scroll-animate" style="animation-delay: 0.4s;">
-                    <img src="https://placehold.co/600x400/F59E0B/FFFFFF?text=%E8%81%8C%E5%9C%BA%E4%BA%BA%E5%A3%AB%E6%A8%A1%E6%9D%BF" alt="职场人士模板" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-content-primary mb-2">职场人士模板</h3>
-                        <p class="text-content-secondary text-sm">简洁专业的数字名片与在线简历，突出技能与项目经验。</p>
-                    </div>
-                </div>
-                <div class="bg-card rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 scroll-animate" style="animation-delay: 0.5s;">
-                    <img src="https://placehold.co/600x400/10B981/FFFFFF?text=%E4%B8%AA%E4%BA%BA%E5%93%81%E7%89%8C%E6%A8%A1%E6%9D%BF" alt="个人品牌模板" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-content-primary mb-2">个人品牌模板</h3>
-                        <p class="text-content-secondary text-sm">打造独特个人IP，聚合你的所有在线足迹，展现全面魅力。</p>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-12 scroll-animate" style="animation-delay: 0.6s;">
-                <a href="#" class="btn btn-secondary">探索更多模板</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="why-us" class="py-16 md:py-24 bg-slate-100 dark:bg-slate-800">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 md:mb-16">
-                <h2 class="text-3xl sm:text-4xl font-bold text-content-primary mb-4 scroll-animate">为何选择 EgoLinks？</h2>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                <div class="scroll-animate" style="animation-delay: 0.2s;">
-                    <div class="p-6 bg-card rounded-xl shadow-lg h-full flex flex-col items-center justify-center">
-                        <i class="fas fa-drafting-compass text-4xl text-primary mb-4"></i>
-                        <h3 class="text-xl font-semibold text-content-primary mb-2">真·高度定制</h3>
-                        <p class="text-content-secondary text-sm">不只是换皮肤，从布局到细节，真正实现你的创意。</p>
-                    </div>
-                </div>
-                <div class="scroll-animate" style="animation-delay: 0.3s;">
-                     <div class="p-6 bg-card rounded-xl shadow-lg h-full flex flex-col items-center justify-center">
-                        <i class="fas fa-gift text-4xl text-primary mb-4"></i>
-                        <h3 class="text-xl font-semibold text-content-primary mb-2">永久免费基础版</h3>
-                        <p class="text-content-secondary text-sm">核心功能永久免费，满足你的基本需求，无后顾之忧。</p>
-                    </div>
-                </div>
-                <div class="scroll-animate" style="animation-delay: 0.4s;">
-                     <div class="p-6 bg-card rounded-xl shadow-lg h-full flex flex-col items-center justify-center">
-                        <i class="fas fa-rocket text-4xl text-primary mb-4"></i>
-                        <h3 class="text-xl font-semibold text-content-primary mb-2">面向未来的扩展性</h3>
-                        <p class="text-content-secondary text-sm">基于LinkStack，持续迭代，功能不断增强，与你共同成长。</p>
-                    </div>
-                </div>
-                <div class="scroll-animate" style="animation-delay: 0.5s;">
-                     <div class="p-6 bg-card rounded-xl shadow-lg h-full flex flex-col items-center justify-center">
-                        <i class="fas fa-thumbs-up text-4xl text-primary mb-4"></i>
-                        <h3 class="text-xl font-semibold text-content-primary mb-2">专注用户体验</h3>
-                        <p class="text-content-secondary text-sm">简洁易用，快速上手，我们倾听你的声音，持续优化。</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-16 md:py-24">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 md:mb-16">
-                <h2 class="text-3xl sm:text-4xl font-bold text-content-primary mb-4 scroll-animate">EgoLinks: 你的数字身份中枢</h2>
-                <p class="text-lg text-content-secondary max-w-xl mx-auto scroll-animate" style="animation-delay: 0.2s;">
-                    可视化展示 EgoLinks 如何将你的各个在线平台和数字资产整合为一个统一、易于管理的个性化中心。
-                </p>
-            </div>
-            <div class="mermaid-container scroll-animate" style="animation-delay: 0.4s;">
-                <pre class="mermaid">
-                    graph TD
-                        A[你的 EgoLinks 主页] -->|聚合展示| B(社交媒体);
-                        A -->|聚合展示| C(作品集/博客);
-                        A -->|聚合展示| D(项目链接);
-                        A -->|聚合展示| E(联系方式/数字名片);
-                        A -->|聚合展示| F(在线商店/服务);
-                        A -->|聚合展示| G(资源分享);
-                        B --> B1(微信公众号);
-                        B --> B2(微博);
-                        B --> B3(小红书);
-                        B --> B4(B站/抖音);
-                        B --> B5(GitHub/Behance);
-                        C --> C1(个人博客);
-                        C --> C2(在线作品);
-                        subgraph 用户自定义模块
-                            direction LR
-                            M1[<i class='fas fa-image'></i> 图片模块]
-                            M2[<i class='fas fa-video'></i> 视频模块]
-                            M3[<i class='fas fa-music'></i> 音乐模块]
-                            M4[<i class='fas fa-envelope'></i> 联系表单]
-                        end
-                        A --> M1;
-                        A --> M2;
-                        A --> M3;
-                        A --> M4;
-
-                        style A fill:#0891B2,stroke:#06728A,stroke-width:2px,color:#fff,font-size:18px,font-weight:bold,padding:15px
-                        style B fill:#F59E0B,stroke:#D97706,stroke-width:2px,color:#fff
-                        style C fill:#10B981,stroke:#059669,stroke-width:2px,color:#fff
-                        style D fill:#6366F1,stroke:#4F46E5,stroke-width:2px,color:#fff
-                        style E fill:#EC4899,stroke:#DB2777,stroke-width:2px,color:#fff
-                        style F fill:#8B5CF6,stroke:#7C3AED,stroke-width:2px,color:#fff
-                        style G fill:#FBBF24,stroke:#F59E0B,stroke-width:2px,color:#fff
-                        style M1 fill:#E2E8F0,stroke:#94A3B8,stroke-width:1px,color:#334155
-                        style M2 fill:#E2E8F0,stroke:#94A3B8,stroke-width:1px,color:#334155
-                        style M3 fill:#E2E8F0,stroke:#94A3B8,stroke-width:1px,color:#334155
-                        style M4 fill:#E2E8F0,stroke:#94A3B8,stroke-width:1px,color:#334155
-                </pre>
-            </div>
-        </div>
-    </section>
-
-    <section id="resources" class="py-16 md:py-24 bg-slate-100 dark:bg-slate-800">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 md:mb-16">
-                <h2 class="text-3xl sm:text-4xl font-bold text-content-primary mb-4 scroll-animate">精选资源：助力你的数字成长</h2>
-                <p class="text-lg text-content-secondary max-w-xl mx-auto scroll-animate" style="animation-delay: 0.2s;">我们为你整理了一些优质文章和工具，助你更好地打造个人品牌和在线影响力。</p>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="feature-card scroll-animate" style="animation-delay: 0.3s;">
-                    <h3 class="text-xl font-semibold text-content-primary mb-2">如何打造令人印象深刻的个人品牌？</h3>
-                    <p class="text-content-secondary text-sm mb-3">从定位到传播，全面解析个人品牌建设的关键步骤和实用技巧。</p>
-                    <a href="#" class="text-primary hover:underline text-sm">阅读更多 <i class="fas fa-arrow-right ml-1"></i></a>
-                </div>
-                <div class="feature-card scroll-animate" style="animation-delay: 0.4s;">
-                    <h3 class="text-xl font-semibold text-content-primary mb-2">内容创作者的10个高效工具推荐</h3>
-                    <p class="text-content-secondary text-sm mb-3">提升创作效率、优化内容质量，这些工具不容错过。</p>
-                    <a href="#" class="text-primary hover:underline text-sm">查看工具清单 <i class="fas fa-arrow-right ml-1"></i></a>
-                </div>
-                <div class="feature-card scroll-animate" style="animation-delay: 0.5s;">
-                    <h3 class="text-xl font-semibold text-content-primary mb-2">玩转社交媒体：提升互动与影响力的秘诀</h3>
-                    <p class="text-content-secondary text-sm mb-3">深入了解各大社交平台特性，掌握用户增长和内容运营的核心策略。</p>
-                    <a href="#" class="text-primary hover:underline text-sm">学习运营策略 <i class="fas fa-arrow-right ml-1"></i></a>
-                </div>
-                 <div class="feature-card scroll-animate" style="animation-delay: 0.6s;">
-                    <h3 class="text-xl font-semibold text-content-primary mb-2">数字名片：现代职场人的必备社交利器</h3>
-                    <p class="text-content-secondary text-sm mb-3">为什么你需要一张数字名片？如何用它拓展你的人脉圈？</p>
-                    <a href="#" class="text-primary hover:underline text-sm">了解数字名片 <i class="fas fa-arrow-right ml-1"></i></a>
-                </div>
-                 <div class="feature-card scroll-animate" style="animation-delay: 0.7s;">
-                    <h3 class="text-xl font-semibold text-content-primary mb-2">SEO入门指南：让你的个人网站更容易被发现</h3>
-                    <p class="text-content-secondary text-sm mb-3">基础的搜索引擎优化技巧，帮助你的EgoLinks主页获得更多曝光。</p>
-                    <a href="#" class="text-primary hover:underline text-sm">学习SEO技巧 <i class="fas fa-arrow-right ml-1"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-16 md:py-24 bg-gradient-to-br from-primary to-cyan-700 dark:from-primary dark:to-cyan-800 text-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl sm:text-4xl font-bold mb-6 scroll-animate">准备好打造你的专属数字链接中心了吗？</h2>
-            <p class="text-lg sm:text-xl opacity-90 mb-10 max-w-xl mx-auto scroll-animate" style="animation-delay: 0.2s;">
-                立即加入成千上万的选择，EgoLinks 让世界更好地认识你。
-            </p>
-            <div class="scroll-animate" style="animation-delay: 0.4s;">
-                <a href="#" class="btn bg-white text-primary hover:bg-slate-100 text-lg shadow-xl">立即免费注册 EgoLinks</a>
-            </div>
-        </div>
-    </section>
-
-    <footer class="py-12 bg-slate-200 dark:bg-slate-800 border-t border-card">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-3 gap-8 mb-8">
-                <div>
-                    <h4 class="text-xl font-semibold text-content-primary mb-4">EgoLinks</h4>
-                    <p class="text-content-secondary text-sm">一链万象，链出本我。</p>
-                    <p class="text-content-secondary text-sm mt-2">你的数字身份，由此链接。</p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold text-content-primary mb-4">快速链接</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#features" class="text-content-secondary hover:text-primary text-sm transition-colors">核心功能</a></li>
-                        <li><a href="#templates" class="text-content-secondary hover:text-primary text-sm transition-colors">模板中心</a></li>
-                        <li><a href="#" class="text-content-secondary hover:text-primary text-sm transition-colors">价格方案</a></li>
-                        <li><a href="#" class="text-content-secondary hover:text-primary text-sm transition-colors">帮助中心</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold text-content-primary mb-4">关注我们</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-content-secondary hover:text-primary text-xl transition-colors"><i class="fab fa-weixin"></i></a>
-                        <a href="#" class="text-content-secondary hover:text-primary text-xl transition-colors"><i class="fab fa-weibo"></i></a>
-                        <a href="#" class="text-content-secondary hover:text-primary text-xl transition-colors"><i class="fab fa-xiaohongshu"></i></a>
-                        <a href="#" class="text-content-secondary hover:text-primary text-xl transition-colors"><i class="fab fa-github"></i></a>
-                    </div>
-                     <p class="text-content-secondary text-sm mt-4">联系邮箱: contact@egolinks.com</p>
-                </div>
-            </div>
-            <div class="border-t border-slate-300 dark:border-slate-700 pt-8 text-center text-content-secondary text-sm">
-                <p>&copy; <span id="current-year"></span> EgoLinks. 保留所有权利. (模拟备案号: 京ICP备XXXXXXXX号-X)</p>
-                <p class="mt-1">由AI辅助设计与开发。本页面仅为演示目的。</p>
-            </div>
-        </div>
+      </div>
     </footer>
 
+    <!-- 星空背景脚本 -->
     <script>
-        // Dark/Light Mode Toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        const htmlElement = document.documentElement;
-
-        // Function to apply theme
-        function applyTheme(theme) {
-            if (theme === 'dark') {
-                htmlElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                htmlElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            }
-            // 更新Mermaid图表
-            updateMermaidTheme();
+      document.addEventListener('DOMContentLoaded', function() {
+        const starfield = document.getElementById('starfield');
+        const starsCount = 100;
+        
+        for (let i = 0; i < starsCount; i++) {
+          const star = document.createElement('div');
+          star.classList.add('star');
+          
+          // 随机位置
+          star.style.top = `${Math.random() * 100}%`;
+          star.style.left = `${Math.random() * 100}%`;
+          
+          // 随机大小
+          const size = Math.random() * 3;
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          
+          // 随机动画延迟
+          star.style.animationDelay = `${Math.random() * 5}s`;
+          
+          starfield.appendChild(star);
         }
+      });
+      
+      // 移动端导航菜单
+      document.getElementById('open-nav-button').addEventListener('click', function() {
+        // 创建移动端导航菜单
+        const mobileMenu = document.createElement('div');
+        mobileMenu.id = 'mobile-menu';
+        mobileMenu.className = 'fixed inset-0 bg-slate-900/95 z-50 flex flex-col items-center justify-center';
         
-        // Check for saved theme in localStorage or system preference
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        if (savedTheme) {
-            applyTheme(savedTheme);
-        } else if (prefersDark) {
-            applyTheme('dark');
-        } else {
-            applyTheme('light'); // Default to light
-        }
-
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            applyTheme(newTheme);
-        });
-
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileMenuLinks = mobileMenu.querySelectorAll('.mobile-menu-link');
-
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.add('open');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
-        });
-
-        mobileMenuCloseButton.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            document.body.style.overflow = '';
+        // 创建关闭按钮
+        const closeButton = document.createElement('button');
+        closeButton.className = 'absolute top-4 right-4 text-white';
+        closeButton.innerHTML = '<i class="fas fa-times text-2xl"></i>';
+        closeButton.addEventListener('click', function() {
+          document.body.removeChild(mobileMenu);
         });
         
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                document.body.style.overflow = '';
-            });
-        });
-
-
-        // Sticky Navigation
-        const header = document.getElementById('main-header');
-        const stickyNavThreshold = 100; // Pixels to scroll before nav becomes sticky
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > stickyNavThreshold) {
-                header.classList.add('nav-sticky');
-            } else {
-                header.classList.remove('nav-sticky');
-            }
-        });
-
-        // 使用Intersection Observer优化滚动动画
-        const scrollElements = document.querySelectorAll('.scroll-animate');
+        // 创建导航链接
+        const navLinks = document.createElement('div');
+        navLinks.className = 'flex flex-col items-center gap-6';
+        navLinks.innerHTML = `
+          <a class="text-xl hover:text-primary" href="#features">核心功能</a>
+          <a class="text-xl hover:text-primary" href="#showcase">模板展示</a>
+          <a class="text-xl hover:text-primary" href="#why-choose">为何选择我们</a>
+          <div class="my-4 border-t border-slate-700 w-32"></div>
+          <div class="flex gap-4 mb-4">
+            <a href="../zh/index.html" class="flex items-center px-4 py-2 rounded border border-primary text-primary">
+              <i class="fas fa-globe mr-2"></i>中文
+            </a>
+            <a href="../en/index.html" class="flex items-center px-4 py-2 rounded border border-slate-600 hover:border-primary hover:text-primary">
+              <i class="fas fa-globe mr-2"></i>English
+            </a>
+          </div>
+          <div class="flex gap-4">
+            <a href="https://egolinks.online/login" class="px-6 py-3 rounded border border-slate-600 hover:border-primary hover:text-primary">登录</a>
+            <a href="https://egolinks.online/register" class="px-6 py-3 rounded bg-primary hover:bg-opacity-80">注册</a>
+          </div>
+        `;
         
-        // 定义handleScrollAnimation函数
-        function handleScrollAnimation() {
-            scrollElements.forEach((el) => {
-                const elementTop = el.getBoundingClientRect().top;
-                if (elementTop <= (window.innerHeight || document.documentElement.clientHeight) * 0.85) {
-                    el.classList.add('is-visible');
-                }
-            });
-        }
+        // 添加元素到菜单
+        mobileMenu.appendChild(closeButton);
+        mobileMenu.appendChild(navLinks);
         
-        if ('IntersectionObserver' in window) {
-            const scrollObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        scrollObserver.unobserve(entry.target); // 元素显示后不再观察
-                    }
-                });
-            }, { threshold: 0.15 }); // 当元素15%可见时触发
-            
-            scrollElements.forEach(el => {
-                scrollObserver.observe(el);
-            });
-        } else {
-            // 回退方案：为不支持IntersectionObserver的浏览器
-            window.addEventListener('scroll', handleScrollAnimation);
-            // Trigger on load for elements already in view
-            document.addEventListener('DOMContentLoaded', function() {
-                setTimeout(() => {
-                    // 手动触发初始可见元素
-                    handleScrollAnimation();
-                    
-                    // 初始化Mermaid图表
-                    updateMermaidTheme();
-                }, 100);
-            });
-        }
-        
-        // 确保所有资源加载完成后再次检查
-        window.addEventListener('load', function() {
-            // 再次触发滚动动画
-            handleScrollAnimation();
-            
-            // 图片懒加载处理
-            const images = document.querySelectorAll('img:not(.loaded)');
-            images.forEach(img => {
-                img.classList.add('lazy-load');
-                // 创建一个新的IntersectionObserver实例
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const image = entry.target;
-                            // 如果图片有data-src属性，则将其设置为src
-                            if (image.dataset.src) {
-                                image.src = image.dataset.src;
-                            }
-                            // 添加loaded类并移除lazy-load类
-                            image.classList.remove('lazy-load');
-                            image.classList.add('loaded');
-                            // 图片加载后不再观察
-                            observer.unobserve(image);
-                        }
-                    });
-                });
-                // 开始观察图片
-                observer.observe(img);
-            });
-        });
-        
-        // 修复移动菜单在某些情况下可能无法关闭的问题
-        document.addEventListener('click', function(event) {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            
-            // 如果点击的不是菜单本身且不是菜单按钮，并且菜单是打开的，则关闭菜单
-            if (!mobileMenu.contains(event.target) && 
-                event.target !== mobileMenuButton && 
-                !mobileMenuButton.contains(event.target) && 
-                mobileMenu.classList.contains('open')) {
-                mobileMenu.classList.remove('open');
-                document.body.style.overflow = '';
-            }
-        });
-
-
-        // Mermaid Initialization - 使用更好的主题处理
-        document.addEventListener('DOMContentLoaded', function() {
-            mermaid.initialize({ 
-                startOnLoad: false, // 手动控制初始化
-                theme: 'base',
-                themeVariables: getMermaidThemeVariables()
-            });
-            
-            // 初始化所有图表
-            mermaid.run();
-        });
-        
-        // 获取当前主题的Mermaid变量
-        function getMermaidThemeVariables() {
-            const isDarkMode = document.documentElement.classList.contains('dark');
-            return {
-                primaryColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
-                primaryTextColor: '#ffffff',
-                lineColor: isDarkMode 
-                    ? getComputedStyle(document.documentElement).getPropertyValue('--text-secondary-dark').trim() 
-                    : getComputedStyle(document.documentElement).getPropertyValue('--text-secondary-light').trim(),
-                textColor: isDarkMode 
-                    ? getComputedStyle(document.documentElement).getPropertyValue('--text-primary-dark').trim() 
-                    : getComputedStyle(document.documentElement).getPropertyValue('--text-primary-light').trim(),
-                mainBkg: isDarkMode 
-                    ? getComputedStyle(document.documentElement).getPropertyValue('--card-bg-dark').trim() 
-                    : getComputedStyle(document.documentElement).getPropertyValue('--card-bg-light').trim(),
-                nodeBorder: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
-            };
-        }
-        
-        // 更新Mermaid主题 - 优化版本
-        function updateMermaidTheme() {
-            const mermaidContainers = document.querySelectorAll('.mermaid');
-            if (mermaidContainers.length === 0) return;
-            
-            // 更新Mermaid配置
-            mermaid.initialize({
-                startOnLoad: false,
-                theme: 'base',
-                themeVariables: getMermaidThemeVariables()
-            });
-            
-            // 重新渲染所有图表
-            mermaidContainers.forEach(container => {
-                if (container) {
-                    // 保存原始图表定义
-                    const diagramDefinition = container.textContent || container.innerText;
-                    // 重置容器以允许重新处理
-                    container.removeAttribute('data-processed');
-                    container.innerHTML = diagramDefinition;
-                }
-            });
-            
-            // 运行Mermaid重新渲染
-            try {
-                mermaid.run();
-            } catch (e) {
-                console.error('Mermaid渲染错误:', e);
-            }
-        }
-        
-        // Call updateMermaidTheme when the main theme toggles
-        const observer = new MutationObserver((mutationsList) => {
-            for(let mutation of mutationsList) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    updateMermaidTheme();
-                }
-            }
-        });
-        observer.observe(document.documentElement, { attributes: true });
-        // Initial call in case theme is set on load
-        // updateMermaidTheme(); // Called by mermaid.initialize() with startOnLoad:true
-
-
-        // Set current year in footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                // Ensure it's a valid internal link and not just "#"
-                if (href.length > 1 && document.querySelector(href)) {
-                    e.preventDefault();
-                    document.querySelector(href).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
+        // 添加菜单到页面
+        document.body.appendChild(mobileMenu);
+      });
+      
     </script>
-</body>
+  </body>
 </html>
