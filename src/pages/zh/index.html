@@ -1,618 +1,669 @@
 <!DOCTYPE html>
 <html lang="zh" class="h-full motion-safe:scroll-smooth" data-theme="dark">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" href="/public/favicon.svg" type="image/svg+xml" />
 
-    <title>EgoLinks - 一链万象，链出本我 | 免费创建你的个性化链接主页</title>
-    <meta name="description" content="EgoLinks提供免费、高度可定制的个人链接聚合服务，助你轻松制作专属的link in bio页面、数字名片、简历和网址导航。一键分享所有社交媒体、作品集与重要链接，完美展现个人品牌与数字身份。立即注册EgoLinks！" />
-    <meta name="keywords" content="EgoLinks, 个人主页, 链接分享, link in bio, 个人链接聚合, 自定义链接, 导航网站制作, 数字名片制作, 免费个人网站, 个人品牌, 网址导航, 链接集合, 简历链接, 创作者主页" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml" />
 
-    <!-- social media -->
-    <meta property="og:title" content="EgoLinks - 一链万象，链出本我 | 免费创建你的个性化链接主页" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="EgoLinks提供免费、高度可定制的个人链接聚合服务，助你轻松制作专属的link in bio页面、数字名片、简历和网址导航。" />
-    <meta property="og:image" content="/social.jpg" />
-    <meta name="twitter:card" content="summary_large_image" />
+  <title>EgoLinks - 一链万象，链出本我 | 免费创建你的个性化链接主页</title>
+  <meta name="description"
+    content="EgoLinks提供免费、高度可定制的个人链接聚合服务，助你轻松制作专属的link in bio页面、数字名片、简历和网址导航。一键分享所有社交媒体、作品集与重要链接，完美展现个人品牌与数字身份。立即注册EgoLinks！" />
+  <meta name="keywords"
+    content="EgoLinks, 个人主页, 链接分享, link in bio, 个人链接聚合, 自定义链接, 导航网站制作, 数字名片制作, 免费个人网站, 个人品牌, 网址导航, 链接集合, 简历链接, 创作者主页" />
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              primary: '#673AB7', // 活力紫作为主色调
-              secondary: '#FF7F50', // 珊瑚橙作为辅助色
-              default: '#1E293B', // 深色背景
-              muted: '#64748B' // 次要文本颜色
-            }
+  <!-- social media -->
+  <meta property="og:title" content="EgoLinks - 一链万象，链出本我 | 免费创建你的个性化链接主页" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="EgoLinks提供免费、高度可定制的个人链接聚合服务，助你轻松制作专属的link in bio页面、数字名片、简历和网址导航。" />
+  <meta property="og:image" content="/social.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#673AB7', // 活力紫作为主色调
+            secondary: '#FF7F50', // 珊瑚橙作为辅助色
+            default: '#1E293B', // 深色背景
+            muted: '#64748B' // 次要文本颜色
           }
         }
       }
-    </script>
+    }
+  </script>
 
-    <!-- 初始化主题 -->
-    <script>
-      const themeSaved = localStorage.getItem("theme");
+  <!-- 初始化主题 -->
+  <script>
+    const themeSaved = localStorage.getItem("theme");
 
-      if (themeSaved) {
-        document.documentElement.dataset.theme = themeSaved;
-      } else {
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)",
-        ).matches;
-        document.documentElement.dataset.theme = prefersDark ? "dark" : "light";
-      }
+    if (themeSaved) {
+      document.documentElement.dataset.theme = themeSaved;
+    } else {
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      document.documentElement.dataset.theme = prefersDark ? "dark" : "light";
+    }
 
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", (event) => {
-          if (!localStorage.getItem("theme")) {
-            document.documentElement.dataset.theme = event.matches
-              ? "dark"
-              : "light";
-          }
-        });
-    </script>
-    
-    <style>
-      /* 自定义样式 */
-      .gradient-text {
-        background: linear-gradient(to right, #673AB7, #FF7F50);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-      
-      #starfield {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        overflow: hidden;
-      }
-      
-      #starfield-canvas {
-        width: 100%;
-        height: 100%;
-      }
-    </style>
-  </head>
-  <body class="h-full overflow-x-hidden bg-slate-900 text-white text-base">
-    <script>
-      // 星空背景动画
-      document.addEventListener('DOMContentLoaded', () => {
-        const COUNT = 800;
-        const SPEED = 0.1;
-
-        class Star {
-          constructor(x = 0, y = 0, z = 0) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.xPrev = x;
-            this.yPrev = y;
-          }
-
-          update(width, height, speed) {
-            this.xPrev = this.x;
-            this.yPrev = this.y;
-            this.z += speed * 0.0675;
-            this.x += this.x * (speed * 0.0225) * this.z;
-            this.y += this.y * (speed * 0.0225) * this.z;
-            if (
-              this.x > width / 2 ||
-              this.x < -width / 2 ||
-              this.y > height / 2 ||
-              this.y < -height / 2
-            ) {
-              this.x = Math.random() * width - width / 2;
-              this.y = Math.random() * height - height / 2;
-              this.xPrev = this.x;
-              this.yPrev = this.y;
-              this.z = 0;
-            }
-          }
-
-          draw(ctx) {
-            ctx.lineWidth = this.z;
-            ctx.beginPath();
-            ctx.moveTo(this.x, this.y);
-            ctx.lineTo(this.xPrev, this.yPrev);
-            ctx.stroke();
-          }
-        }
-
-        const stars = Array.from({ length: COUNT }, () => new Star(0, 0, 0));
-        let rafId = 0;
-
-        const canvas = document.querySelector('#starfield-canvas');
-        if (!canvas) return;
-        
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        const container = document.querySelector('#starfield');
-        if (!container) return;
-        
-        const resizeObserver = new ResizeObserver(setup);
-        resizeObserver.observe(container);
-
-        function setup() {
-          rafId > 0 && cancelAnimationFrame(rafId);
-
-          const { clientWidth: width, clientHeight: height } = container;
-          const dpr = window.devicePixelRatio || 1;
-          canvas.width = width * dpr;
-          canvas.height = height * dpr;
-          canvas.style.width = `${width}px`;
-          canvas.style.height = `${height}px`;
-          ctx.scale(dpr, dpr);
-
-          for (const star of stars) {
-            star.x = Math.random() * width - width / 2;
-            star.y = Math.random() * height - height / 2;
-            star.z = 0;
-          }
-
-          ctx.translate(width / 2, height / 2);
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-          ctx.strokeStyle = 'white';
-          rafId = requestAnimationFrame(frame);
-        }
-
-        function frame() {
-          const { clientWidth: width, clientHeight: height } = container;
-
-          ctx.fillRect(-width / 2, -height / 2, width, height);
-
-          for (const star of stars) {
-            star.update(width, height, SPEED);
-            star.draw(ctx);
-          }
-
-          rafId = requestAnimationFrame(frame);
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (event) => {
+        if (!localStorage.getItem("theme")) {
+          document.documentElement.dataset.theme = event.matches
+            ? "dark"
+            : "light";
         }
       });
-    </script>
-    <!-- 导航栏 -->
-    <header id="page-header" class="fixed top-0 z-20 w-full bg-slate-900/80 backdrop-blur-sm border-b border-slate-800 px-8 py-4">
-      <div class="max-w-7xl mx-auto flex items-center justify-between">
-        <a class="flex items-center gap-3 hover:text-primary" href="https://www.egolinks.online">
-          <img src="./favicon.svg" alt="Logo" class="w-10 h-10" />
-          <span class="text-xl font-bold">EgoLinks</span>
-        </a>
-        <div>
-          <div class="flex items-center gap-6">
-            <nav class="hidden md:block">
-              <ul class="flex items-center gap-6">
-                <li><a class="text-sm hover:text-primary" href="#intro">核心功能</a></li>
-                <li><a class="text-sm hover:text-primary" href="#showcase">模板展示</a></li>
-                <li><a class="text-sm hover:text-primary" href="#why-choose">为何选择我们</a></li>
-              </ul>
-            </nav>
-            <button id="open-nav-button" type="button" class="md:hidden" aria-label="导航">
-              <i class="fas fa-bars text-2xl"></i>
-            </button>
-            <!-- 语言切换器 -->
-            <div class="relative group mr-2">
-              <button class="flex items-center text-sm px-3 py-2 rounded border border-slate-600 hover:border-primary hover:text-primary">
-                <i class="fas fa-globe mr-2"></i>
-                <span>中文</span>
-                <i class="fas fa-chevron-down ml-2 text-xs"></i>
-              </button>
-              <div class="absolute right-0 mt-2 w-32 bg-slate-800 rounded-md shadow-lg overflow-hidden z-20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                <a href="../zh" class="block px-4 py-2 text-sm text-white hover:bg-primary hover:text-white border-l-2 border-primary">
-                  <i class="fas fa-check mr-2"></i>中文
-                </a>
-                <a href="../" class="block px-4 py-2 text-sm text-white hover:bg-primary hover:text-white">
-                  <i class="fas fa-globe mr-2"></i>English
-                </a>
-              </div>
-            </div>
-            <div class="flex gap-4">
-              <a href="https://egolinks.online/login" class="text-sm px-4 py-2 rounded border border-slate-600 hover:border-primary hover:text-primary">登录</a>
-              <a href="https://egolinks.online/register" class="text-sm px-4 py-2 rounded bg-primary hover:bg-opacity-80">注册</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+  </script>
 
-    <!-- Hero区域 -->
-    <section class="relative h-screen bg-black">
-      <div id="starfield">
-        <canvas id="starfield-canvas"></canvas>
-      </div>
-      <div class="relative grid h-full place-items-center max-w-7xl mx-auto px-8 pt-20 md:grid-cols-2">
-        <div class="flex flex-col items-center gap-4 text-center md:items-start md:text-left">
-          <img src="/favicon.svg" alt="EgoLinks Logo" class="w-20 h-20 md:w-32 md:h-32" />
-          <h1 class="gradient-text font-extrabold tracking-tighter text-5xl md:text-7xl">
-            一链万象<br />链出本我
-          </h1>
-          <p class="text-lg text-slate-300 mt-4 max-w-xl">
-            免费、高度可定制的个人链接聚合平台，聚合你的精彩，定义你的链接。
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 mt-8">
-            <a href="https://egolinks.online/register" class="px-8 py-4 bg-primary rounded-lg text-white font-bold hover:bg-opacity-80 text-center">
-              <i class="fas fa-rocket mr-2"></i>立即免费注册
-            </a>
-            <a href="#features" class="px-8 py-4 border border-white/20 rounded-lg hover:border-primary hover:text-primary text-center">
-              <i class="fas fa-info-circle mr-2"></i>了解更多
-            </a>
+  <style>
+    /* 自定义样式 */
+    .gradient-text {
+      background: linear-gradient(to right, #673AB7, #FF7F50);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #starfield {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    #starfield-canvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body class="h-full overflow-x-hidden bg-slate-900 text-white text-base">
+  <script>
+    // 星空背景动画
+    document.addEventListener('DOMContentLoaded', () => {
+      const COUNT = 800;
+      const SPEED = 0.1;
+
+      class Star {
+        constructor(x = 0, y = 0, z = 0) {
+          this.x = x;
+          this.y = y;
+          this.z = z;
+          this.xPrev = x;
+          this.yPrev = y;
+        }
+
+        update(width, height, speed) {
+          this.xPrev = this.x;
+          this.yPrev = this.y;
+          this.z += speed * 0.0675;
+          this.x += this.x * (speed * 0.0225) * this.z;
+          this.y += this.y * (speed * 0.0225) * this.z;
+          if (
+            this.x > width / 2 ||
+            this.x < -width / 2 ||
+            this.y > height / 2 ||
+            this.y < -height / 2
+          ) {
+            this.x = Math.random() * width - width / 2;
+            this.y = Math.random() * height - height / 2;
+            this.xPrev = this.x;
+            this.yPrev = this.y;
+            this.z = 0;
+          }
+        }
+
+        draw(ctx) {
+          ctx.lineWidth = this.z;
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y);
+          ctx.lineTo(this.xPrev, this.yPrev);
+          ctx.stroke();
+        }
+      }
+
+      const stars = Array.from({ length: COUNT }, () => new Star(0, 0, 0));
+      let rafId = 0;
+
+      const canvas = document.querySelector('#starfield-canvas');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      const container = document.querySelector('#starfield');
+      if (!container) return;
+
+      const resizeObserver = new ResizeObserver(setup);
+      resizeObserver.observe(container);
+
+      function setup() {
+        rafId > 0 && cancelAnimationFrame(rafId);
+
+        const { clientWidth: width, clientHeight: height } = container;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        ctx.scale(dpr, dpr);
+
+        for (const star of stars) {
+          star.x = Math.random() * width - width / 2;
+          star.y = Math.random() * height - height / 2;
+          star.z = 0;
+        }
+
+        ctx.translate(width / 2, height / 2);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+        ctx.strokeStyle = 'white';
+        rafId = requestAnimationFrame(frame);
+      }
+
+      function frame() {
+        const { clientWidth: width, clientHeight: height } = container;
+
+        ctx.fillRect(-width / 2, -height / 2, width, height);
+
+        for (const star of stars) {
+          star.update(width, height, SPEED);
+          star.draw(ctx);
+        }
+
+        rafId = requestAnimationFrame(frame);
+      }
+    });
+  </script>
+  <!-- 导航栏 -->
+  <header id="page-header"
+    class="fixed top-0 z-20 w-full bg-slate-900/80 backdrop-blur-sm border-b border-slate-800 px-8 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a class="flex items-center gap-3 hover:text-primary" href="https://www.egolinks.online">
+        <img src="./favicon.svg" alt="Logo" class="w-10 h-10" />
+        <span class="text-xl font-bold">EgoLinks</span>
+      </a>
+      <div>
+        <div class="flex items-center gap-6">
+          <nav class="hidden md:block">
+            <ul class="flex items-center gap-6">
+              <li><a class="text-sm hover:text-primary" href="#intro">核心功能</a></li>
+              <li><a class="text-sm hover:text-primary" href="#showcase">模板展示</a></li>
+              <li><a class="text-sm hover:text-primary" href="#why-choose">为何选择我们</a></li>
+            </ul>
+          </nav>
+          <button id="open-nav-button" type="button" class="md:hidden" aria-label="导航">
+            <i class="fas fa-bars text-2xl"></i>
+          </button>
+          <!-- 语言切换器 -->
+          <div class="relative group mr-2">
+            <button
+              class="flex items-center text-sm px-3 py-2 rounded border border-slate-600 hover:border-primary hover:text-primary">
+              <i class="fas fa-globe mr-2"></i>
+              <span>中文</span>
+              <i class="fas fa-chevron-down ml-2 text-xs"></i>
+            </button>
+            <div
+              class="absolute right-0 mt-2 w-32 bg-slate-800 rounded-md shadow-lg overflow-hidden z-20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+              <a href="../zh"
+                class="block px-4 py-2 text-sm text-white hover:bg-primary hover:text-white border-l-2 border-primary">
+                <i class="fas fa-check mr-2"></i>中文
+              </a>
+              <a href="../" class="block px-4 py-2 text-sm text-white hover:bg-primary hover:text-white">
+                <i class="fas fa-globe mr-2"></i>English
+              </a>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <a href="https://egolinks.online/login"
+              class="text-sm px-4 py-2 rounded border border-slate-600 hover:border-primary hover:text-primary">登录</a>
+            <a href="https://egolinks.online/register"
+              class="text-sm px-4 py-2 rounded bg-primary hover:bg-opacity-80">注册</a>
           </div>
         </div>
-        <div class="hidden md:block w-full max-w-lg">
-          <img src="https://www.egolinks.online/_astro/astronaut.B8IC2jL3_XP7uy.webp" alt="EgoLinks展示" class="w-full h-auto" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero区域 -->
+  <section class="relative h-screen bg-black">
+    <div id="starfield">
+      <canvas id="starfield-canvas"></canvas>
+    </div>
+    <div class="relative grid h-full place-items-center max-w-7xl mx-auto px-8 pt-20 md:grid-cols-2">
+      <div class="flex flex-col items-center gap-4 text-center md:items-start md:text-left">
+        <img src="/favicon.svg" alt="EgoLinks Logo" class="w-20 h-20 md:w-32 md:h-32" />
+        <h1 class="gradient-text font-extrabold tracking-tighter text-5xl md:text-7xl">
+          一链万象<br />链出本我
+        </h1>
+        <p class="text-lg text-slate-300 mt-4 max-w-xl">
+          免费、高度可定制的个人链接聚合平台，聚合你的精彩，定义你的链接。
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 mt-8">
+          <a href="https://egolinks.online/register"
+            class="px-8 py-4 bg-primary rounded-lg text-white font-bold hover:bg-opacity-80 text-center">
+            <i class="fas fa-rocket mr-2"></i>立即免费注册
+          </a>
+          <a href="#features"
+            class="px-8 py-4 border border-white/20 rounded-lg hover:border-primary hover:text-primary text-center">
+            <i class="fas fa-info-circle mr-2"></i>了解更多
+          </a>
+        </div>
+      </div>
+      <div class="hidden md:block w-full max-w-lg">
+        <img src="https://www.egolinks.online/_astro/astronaut.B8IC2jL3_XP7uy.webp" alt="EgoLinks展示"
+          class="w-full h-auto" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 主要内容区域 -->
+  <div class="space-y-24 px-8 py-32 max-w-7xl mx-auto">
+    <!-- 痛点与解决方案 -->
+    <section id="intro" class="text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12">还在为这些烦恼吗？</h2>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="flex flex-col items-center p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all">
+          <i class="fas fa-link text-3xl text-primary mb-4"></i>
+          <p class="text-lg text-slate-300">社交平台只能放一个链接？</p>
+        </div>
+        <div class="flex flex-col items-center p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all">
+          <i class="fas fa-box text-3xl text-primary mb-4"></i>
+          <p class="text-lg text-slate-300">作品、项目、联系方式散落各处？</p>
+        </div>
+        <div class="flex flex-col items-center p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all">
+          <i class="fas fa-id-card text-3xl text-primary mb-4"></i>
+          <p class="text-lg text-slate-300">想做个人网站但太复杂、成本高？</p>
+        </div>
+      </div>
+      <div class="mt-12">
+        <h3 class="text-2xl font-bold text-primary mb-4">EgoLinks 为你而来！</h3>
+        <p class="text-xl max-w-3xl mx-auto text-slate-300">
+          一站式聚合、极致个性化、简单易用、永久免费（基础版）。
+        </p>
+      </div>
+
+      <!-- 数字自白书卡片 -->
+      <div class="mt-16 max-w-4xl mx-auto">
+        <div
+          class="p-8 md:p-10 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/90 border border-slate-700 shadow-lg hover:shadow-primary/20 transition-all duration-300">
+          <h3 class="text-2xl md:text-3xl font-bold gradient-text mb-8 text-center leading-tight">数字自白书：用链接铸造新时代的宣言图腾
+          </h3>
+          <div class="relative">
+            <div class="absolute -top-6 -left-6 w-12 h-12 text-4xl text-primary opacity-40">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <div class="space-y-6 text-slate-300 text-lg md:text-xl italic leading-relaxed tracking-wide">
+              <p class="font-medium">在信息洪流中，<span class="text-white">每个人都是手持碎片化痕迹的游牧者</span>。</p>
+              <p>EgoLinks将散落于<span class="text-primary font-semibold">15</span>个平台的数字遗迹——博客、歌单、代码仓库或加密艺术——<span
+                  class="text-white font-medium">熔炼为专属的精神徽章</span>。</p>
+              <p>这里，暗黑界面是反叛者的羊皮卷，悬浮粒子是未来派的星图，<span class="text-white font-medium">链接的排列组合即灵魂的拓扑学</span>。</p>
+              <p>当量子笔记与AI诗画共振，当基因日志与星系图腾共舞，算法将解译宣言的摩斯密码，为数字荒原上的独行者搭建部落篝火。</p>
+              <p class="text-white font-medium">你的<span class="text-secondary">378</span>枚书签无需沉睡，<span
+                  class="text-secondary">2145</span>条碎片不必漂泊，此刻它们将聚合成破开混沌的宣言之剑，在数据旷野烙印独属你的人格史诗。</p>
+            </div>
+            <div class="absolute -bottom-6 -right-6 w-12 h-12 text-4xl text-primary opacity-40">
+              <i class="fas fa-quote-right"></i>
+            </div>
+          </div>
+          <div class="mt-10 text-center">
+            <a href="https://egolinks.online/register"
+              class="inline-block px-8 py-4 bg-primary/20 hover:bg-primary/30 text-primary border border-primary/30 rounded-lg transition-all duration-300 transform hover:scale-105">
+              <i class="fas fa-feather-alt mr-2"></i>创建你的数字宣言
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 主要内容区域 -->
-    <div class="space-y-24 px-8 py-32 max-w-7xl mx-auto">
-      <!-- 痛点与解决方案 -->
-      <section id="intro" class="text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-12">还在为这些烦恼吗？</h2>
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="flex flex-col items-center p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all">
-            <i class="fas fa-link text-3xl text-primary mb-4"></i>
-            <p class="text-lg text-slate-300">社交平台只能放一个链接？</p>
-          </div>
-          <div class="flex flex-col items-center p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all">
-            <i class="fas fa-box text-3xl text-primary mb-4"></i>
-            <p class="text-lg text-slate-300">作品、项目、联系方式散落各处？</p>
-          </div>
-          <div class="flex flex-col items-center p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all">
-            <i class="fas fa-id-card text-3xl text-primary mb-4"></i>
-            <p class="text-lg text-slate-300">想做个人网站但太复杂、成本高？</p>
-          </div>
-        </div>
-        <div class="mt-12">
-          <h3 class="text-2xl font-bold text-primary mb-4">EgoLinks 为你而来！</h3>
-          <p class="text-xl max-w-3xl mx-auto text-slate-300">
-            一站式聚合、极致个性化、简单易用、永久免费（基础版）。
-          </p>
-        </div>
-        
-        <!-- 数字自白书卡片 -->
-        <div class="mt-16 max-w-4xl mx-auto">
-          <div class="p-8 md:p-10 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/90 border border-slate-700 shadow-lg hover:shadow-primary/20 transition-all duration-300">
-            <h3 class="text-2xl md:text-3xl font-bold gradient-text mb-8 text-center leading-tight">数字自白书：用链接铸造新时代的宣言图腾</h3>
-            <div class="relative">
-              <div class="absolute -top-6 -left-6 w-12 h-12 text-4xl text-primary opacity-40">
-                <i class="fas fa-quote-left"></i>
-              </div>
-              <div class="space-y-6 text-slate-300 text-lg md:text-xl italic leading-relaxed tracking-wide">
-                <p class="font-medium">在信息洪流中，<span class="text-white">每个人都是手持碎片化痕迹的游牧者</span>。</p>
-                <p>EgoLinks将散落于<span class="text-primary font-semibold">15</span>个平台的数字遗迹——博客、歌单、代码仓库或加密艺术——<span class="text-white font-medium">熔炼为专属的精神徽章</span>。</p>
-                <p>这里，暗黑界面是反叛者的羊皮卷，悬浮粒子是未来派的星图，<span class="text-white font-medium">链接的排列组合即灵魂的拓扑学</span>。</p>
-                <p>当量子笔记与AI诗画共振，当基因日志与星系图腾共舞，算法将解译宣言的摩斯密码，为数字荒原上的独行者搭建部落篝火。</p>
-                <p class="text-white font-medium">你的<span class="text-secondary">378</span>枚书签无需沉睡，<span class="text-secondary">2145</span>条碎片不必漂泊，此刻它们将聚合成破开混沌的宣言之剑，在数据旷野烙印独属你的人格史诗。</p>
-              </div>
-              <div class="absolute -bottom-6 -right-6 w-12 h-12 text-4xl text-primary opacity-40">
-                <i class="fas fa-quote-right"></i>
-              </div>
-            </div>
-            <div class="mt-10 text-center">
-              <a href="https://egolinks.online/register" class="inline-block px-8 py-4 bg-primary/20 hover:bg-primary/30 text-primary border border-primary/30 rounded-lg transition-all duration-300 transform hover:scale-105">
-                <i class="fas fa-feather-alt mr-2"></i>创建你的数字宣言
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+    <!-- 核心功能展示 -->
+    <section id="features" class="text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">EgoLinks 如何助你脱颖而出？</h2>
+      <p class="text-xl text-slate-300 mb-12">强大功能，释放你的数字魅力</p>
 
-      <!-- 核心功能展示 -->
-      <section id="features" class="text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">EgoLinks 如何助你脱颖而出？</h2>
-        <p class="text-xl text-slate-300 mb-12">强大功能，释放你的数字魅力</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
-            <i class="fas fa-palette text-3xl text-primary mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">极致个性化定制</h3>
-            <p class="text-slate-300">海量模板，拖拽操作，自定义CSS，打造独一无二的视觉风格。</p>
-          </div>
-          
-          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
-            <i class="fas fa-cubes text-3xl text-primary mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">丰富内容模块</h3>
-            <p class="text-slate-300">不止链接，图文影音全包括，动态展示你的每一面。</p>
-          </div>
-          
-          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
-            <i class="fas fa-sitemap text-3xl text-primary mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">多场景应用</h3>
-            <p class="text-slate-300">无论是个人品牌展示、求职、项目推广，EgoLinks都能满足。</p>
-          </div>
-          
-          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
-            <i class="fas fa-share-alt text-3xl text-primary mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">一键分享与追踪</h3>
-            <p class="text-slate-300">轻松分享至各大平台，内置数据分析，效果尽在掌握。</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+          <i class="fas fa-palette text-3xl text-primary mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">极致个性化定制</h3>
+          <p class="text-slate-300">海量模板，拖拽操作，自定义CSS，打造独一无二的视觉风格。</p>
+        </div>
+
+        <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+          <i class="fas fa-cubes text-3xl text-primary mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">丰富内容模块</h3>
+          <p class="text-slate-300">不止链接，图文影音全包括，动态展示你的每一面。</p>
+        </div>
+
+        <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+          <i class="fas fa-sitemap text-3xl text-primary mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">多场景应用</h3>
+          <p class="text-slate-300">无论是个人品牌展示、求职、项目推广，EgoLinks都能满足。</p>
+        </div>
+
+        <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+          <i class="fas fa-share-alt text-3xl text-primary mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">一键分享与追踪</h3>
+          <p class="text-slate-300">轻松分享至各大平台，内置数据分析，效果尽在掌握。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 用户案例/模板展示 -->
+    <section id="showcase" class="text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">发现灵感</h2>
+      <p class="text-xl text-slate-300 mb-12">看看他们如何使用 EgoLinks</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- 模板1 -->
+        <div class="rounded-lg overflow-hidden bg-slate-800/50 hover:bg-slate-800 transition-all">
+          <div class="h-64 bg-gradient-to-r from-purple-500 to-pink-500"><img
+              src="https://www.egolinks.online/theme1.png" alt="EgoLinks展示" class="w-auto h-auto" /></div>
+          <div class="p-4">
+            <h3 class="text-lg font-bold">创作者主页</h3>
+            <p class="text-slate-300">适合内容创作者展示作品和社交媒体</p>
           </div>
         </div>
-      </section>
 
-      <!-- 用户案例/模板展示 -->
-      <section id="showcase" class="text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">发现灵感</h2>
-        <p class="text-xl text-slate-300 mb-12">看看他们如何使用 EgoLinks</p>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- 模板1 -->
-          <div class="rounded-lg overflow-hidden bg-slate-800/50 hover:bg-slate-800 transition-all">
-            <div class="h-64 bg-gradient-to-r from-purple-500 to-pink-500"><img src="https://www.egolinks.online/theme1.png" alt="EgoLinks展示" class="w-auto h-auto" /></div>
-            <div class="p-4">
-              <h3 class="text-lg font-bold">创作者主页</h3>
-              <p class="text-slate-300">适合内容创作者展示作品和社交媒体</p>
-            </div>
-          </div>
-          
-          <!-- 模板2 -->
-          <div class="rounded-lg overflow-hidden bg-slate-800/50 hover:bg-slate-800 transition-all">
-            <div class="h-64 bg-gradient-to-r from-blue-500 to-teal-500"><img src="https://www.egolinks.online/theme2.png" alt="EgoLinks展示" class="w-full h-auto" /></div>
-            <div class="p-4">
-              <h3 class="text-lg font-bold">专业简历</h3>
-              <p class="text-slate-300">展示专业技能和项目经验</p>
-            </div>
-          </div>
-          
-          <!-- 模板3 -->
-          <div class="rounded-lg overflow-hidden bg-slate-800/50 hover:bg-slate-800 transition-all">
-            <div class="h-64 bg-gradient-to-r from-amber-500 to-red-500"><img src="https://www.egolinks.online/theme3.png" alt="EgoLinks展示" class="w-full h-auto" /></div>
-            <div class="p-4">
-              <h3 class="text-lg font-bold">资源导航</h3>
-              <p class="text-slate-300">整合分享有价值的工具和资源</p>
-            </div>
+        <!-- 模板2 -->
+        <div class="rounded-lg overflow-hidden bg-slate-800/50 hover:bg-slate-800 transition-all">
+          <div class="h-64 bg-gradient-to-r from-blue-500 to-teal-500"><img src="https://www.egolinks.online/theme2.png"
+              alt="EgoLinks展示" class="w-full h-auto" /></div>
+          <div class="p-4">
+            <h3 class="text-lg font-bold">专业简历</h3>
+            <p class="text-slate-300">展示专业技能和项目经验</p>
           </div>
         </div>
-        
-        <div class="mt-8">
-          <a href="#" class="px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-all">
-            探索更多模板
-          </a>
-        </div>
-      </section>
 
-      <!-- 为何选择 EgoLinks -->
-      <section id="why-choose" class="text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-12">为何选择 EgoLinks？</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
-            <i class="fas fa-paint-brush text-3xl text-primary mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">真·高度定制</h3>
-            <p class="text-slate-300">不只是换皮肤，从布局到细节，真正实现你的创意。</p>
-          </div>
-          
-          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
-            <i class="fas fa-gift text-3xl text-primary mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">永久免费基础版</h3>
-            <p class="text-slate-300">核心功能永久免费，满足你的基本需求。</p>
-          </div>
-          
-          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
-            <i class="fas fa-rocket text-3xl text-primary mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">面向未来的扩展性</h3>
-            <p class="text-slate-300">基于LinkStack，持续迭代，功能不断增强。</p>
-          </div>
-          
-          <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
-            <i class="fas fa-heart text-3xl text-primary mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">专注用户体验</h3>
-            <p class="text-slate-300">简洁易用，快速上手，我们倾听你的声音。</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- EgoLinks 常见问题 -->
-      <section class="py-16 px-4" id="faq">
-        <div class="max-w-6xl mx-auto">
-          <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">常见问题</h2>
-          <p class="text-xl text-slate-300 mb-12 text-center max-w-3xl mx-auto">关于EgoLinks的一切，这里为你解答</p>
-          
-          <div class="space-y-4 max-w-4xl mx-auto">
-            <!-- 问题1 -->
-            <div class="border border-slate-700 rounded-lg overflow-hidden">
-              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
-                <span class="text-lg font-medium">什么是EgoLinks个人链接聚合平台？</span>
-                <i class="fas fa-chevron-down text-primary transition-transform"></i>
-              </button>
-              <div class="faq-content hidden p-5 bg-slate-800/30">
-                <p class="text-slate-300">EgoLinks是一个免费、高度可定制的<strong>个人链接聚合</strong>服务，帮助你创建专属的<strong>link in bio</strong>页面。你可以在一个页面上集中展示所有社交媒体账号、作品集、项目和重要链接，打造专业的<strong>数字名片</strong>和个人品牌形象。无论你是创作者、设计师、自由职业者还是企业，EgoLinks都能满足你的需求。</p>
-              </div>
-            </div>
-            
-            <!-- 问题2 -->
-            <div class="border border-slate-700 rounded-lg overflow-hidden">
-              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
-                <span class="text-lg font-medium">EgoLinks与其他链接聚合工具相比有什么优势？</span>
-                <i class="fas fa-chevron-down text-primary transition-transform"></i>
-              </button>
-              <div class="faq-content hidden p-5 bg-slate-800/30">
-                <p class="text-slate-300">EgoLinks提供真正的<strong>高度定制</strong>体验，不仅仅是换皮肤，而是从布局到细节的全面自定义。我们提供<strong>永久免费</strong>的基础版本，满足大多数用户需求。基于LinkStack开发，具有出色的扩展性和稳定性。此外，我们专注于用户体验，提供简洁易用的界面，让你能快速创建专业的<strong>个人主页</strong>和<strong>网址导航</strong>。</p>
-              </div>
-            </div>
-            
-            <!-- 问题3 -->
-            <div class="border border-slate-700 rounded-lg overflow-hidden">
-              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
-                <span class="text-lg font-medium">我可以用EgoLinks做什么？</span>
-                <i class="fas fa-chevron-down text-primary transition-transform"></i>
-              </button>
-              <div class="faq-content hidden p-5 bg-slate-800/30">
-                <p class="text-slate-300">EgoLinks适用于多种场景：创建专业的<strong>数字名片</strong>展示你的联系方式和作品；制作<strong>在线简历</strong>链接分享给招聘方；搭建个人<strong>作品集</strong>展示页面；创建<strong>导航网站</strong>整合你常用的工具和资源；为社交媒体账号（如微博、小红书、B站等）提供统一的<strong>链接集合</strong>，解决平台只能放一个链接的限制。无论你是<strong>创作者</strong>、设计师、学生还是专业人士，EgoLinks都能满足你的需求。</p>
-              </div>
-            </div>
-            
-            <!-- 问题4 -->
-            <div class="border border-slate-700 rounded-lg overflow-hidden">
-              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
-                <span class="text-lg font-medium">使用EgoLinks需要具备编程知识吗？</span>
-                <i class="fas fa-chevron-down text-primary transition-transform"></i>
-              </button>
-              <div class="faq-content hidden p-5 bg-slate-800/30">
-                <p class="text-slate-300">完全不需要！EgoLinks设计为对所有人友好的平台。我们提供直观的拖拽界面和丰富的模板，让你无需任何技术知识就能创建专业的<strong>个人网站</strong>。当然，如果你懂一些CSS，还可以进行更深度的自定义，打造真正独一无二的<strong>个性化链接主页</strong>。</p>
-              </div>
-            </div>
-            
-            <!-- 问题5 -->
-            <div class="border border-slate-700 rounded-lg overflow-hidden">
-              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
-                <span class="text-lg font-medium">EgoLinks真的完全免费吗？</span>
-                <i class="fas fa-chevron-down text-primary transition-transform"></i>
-              </button>
-              <div class="faq-content hidden p-5 bg-slate-800/30">
-                <p class="text-slate-300">是的，EgoLinks提供功能强大的永久免费基础版，满足大多数用户的核心需求。你可以创建自己的<strong>免费个人网站</strong>，添加无限链接，自定义主题和布局，并获得基本的访问统计。我们也提供付费升级选项，解锁更多高级功能，如自定义域名、高级分析、移除品牌标识等，但核心功能永远免费。</p>
-              </div>
-            </div>
-            
-            <!-- 问题6 -->
-            <div class="border border-slate-700 rounded-lg overflow-hidden">
-              <button class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all" onclick="toggleFaq(this)">
-                <span class="text-lg font-medium">如何开始使用EgoLinks创建我的个人链接页面？</span>
-                <i class="fas fa-chevron-down text-primary transition-transform"></i>
-              </button>
-              <div class="faq-content hidden p-5 bg-slate-800/30">
-                <p class="text-slate-300">开始使用EgoLinks非常简单：首先注册一个免费账号；选择你喜欢的模板或从头开始创建；添加你的社交媒体链接、作品和项目；自定义外观和布局；最后发布并分享你的<strong>个人品牌</strong>链接。整个过程只需几分钟，你就能拥有一个专业的<strong>链接分享</strong>页面。立即注册，开启你的EgoLinks之旅！</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 添加FAQ切换脚本 -->
-      <script>
-        function toggleFaq(button) {
-          const content = button.nextElementSibling;
-          const icon = button.querySelector('i');
-          
-          // 切换内容显示/隐藏
-          content.classList.toggle('hidden');
-          
-          // 切换图标旋转
-          icon.classList.toggle('transform');
-          icon.classList.toggle('rotate-180');
-        }
-      </script>
-
-      <!-- 行动召唤区域 -->
-      <section class="text-center py-16 px-4 rounded-2xl bg-gradient-to-r from-purple-900/50 to-pink-900/50">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">准备好打造你的专属数字链接中心了吗？</h2>
-        <p class="text-xl text-slate-300 mb-8 max-w-3xl mx-auto">
-          立即加入成千上万人的选择，EgoLinks 让世界更好地认识你。
-        </p>
-        <a href="https://egolinks.online/register" class="px-8 py-4 bg-primary rounded-lg text-white font-bold text-lg hover:bg-opacity-80 inline-block">
-          立即免费注册 EgoLinks
-        </a>
-      </section>
-    </div>
-
-    <!-- 页脚 -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-12 px-8">
-      <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <a class="flex items-center gap-3 mb-4" href="#">
-              <img src="/favicon.svg" alt="Logo" class="w-10 h-10" />
-              <span class="text-xl font-bold">EgoLinks</span>
-            </a>
-            <p class="text-slate-400">一链万象，链出本我。</p>
-          </div>
-          
-          <div>
-            <h3 class="text-lg font-bold mb-4">产品</h3>
-            <ul class="space-y-2">
-              <li><a href="https://linktoai.top" class="text-slate-400 hover:text-primary">AI未来城</a></li>
-              <li><a href="https://chatallais.com" class="text-slate-400 hover:text-primary">星界AI</a></li>
-              <li><a href="https://24kwebgames.com" class="text-slate-400 hover:text-primary">24K Web Games</a></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 class="text-lg font-bold mb-4">资源</h3>
-            <ul class="space-y-2">
-              <li><a href="#" class="text-slate-400 hover:text-primary">博客</a></li>
-              <li><a href="#" class="text-slate-400 hover:text-primary">帮助中心</a></li>
-              <li><a href="" class="text-slate-400 hover:text-primary"></a></li>
-            </ul>
-          </div>
-        
-
-          <div>
-            <h3 class="text-lg font-bold mb-4">法律</h3>
-            <ul class="space-y-2">
-              <li><a href="https://egolinks.online/pages/%E6%9D%A1%E6%AC%BE" class="text-slate-400 hover:text-primary">服务条款</a></li>
-              <li><a href="https://egolinks.online/pages/%E9%9A%90%E7%A7%81" class="text-slate-400 hover:text-primary">隐私政策</a></li>
-            </ul>
-          </div>
-        </div>
-        
-        <div class="mt-12 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center">
-          <p class="text-slate-400">© 2025 EgoLinks. 保留所有权利. Powered by 麒麟剑 </p>
-          <div class="flex space-x-4 mt-4 md:mt-0">
-            <a href="#" class="text-slate-400 hover:text-primary"><i class="fab fa-weixin text-xl"></i></a>
-            <a href="#" class="text-slate-400 hover:text-primary"><i class="fab fa-weibo text-xl"></i></a>
-            <a href="#" class="text-slate-400 hover:text-primary"><i class="fab fa-bilibili text-xl"></i></a>
+        <!-- 模板3 -->
+        <div class="rounded-lg overflow-hidden bg-slate-800/50 hover:bg-slate-800 transition-all">
+          <div class="h-64 bg-gradient-to-r from-amber-500 to-red-500"><img src="https://www.egolinks.online/theme3.png"
+              alt="EgoLinks展示" class="w-full h-auto" /></div>
+          <div class="p-4">
+            <h3 class="text-lg font-bold">资源导航</h3>
+            <p class="text-slate-300">整合分享有价值的工具和资源</p>
           </div>
         </div>
       </div>
-    </footer>
 
-    <!-- 星空背景脚本 -->
+      <div class="mt-8">
+        <a href="#"
+          class="px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-all">
+          探索更多模板
+        </a>
+      </div>
+    </section>
+
+    <!-- 为何选择 EgoLinks -->
+    <section id="why-choose" class="text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12">为何选择 EgoLinks？</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+          <i class="fas fa-paint-brush text-3xl text-primary mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">真·高度定制</h3>
+          <p class="text-slate-300">不只是换皮肤，从布局到细节，真正实现你的创意。</p>
+        </div>
+
+        <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+          <i class="fas fa-gift text-3xl text-primary mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">永久免费基础版</h3>
+          <p class="text-slate-300">核心功能永久免费，满足你的基本需求。</p>
+        </div>
+
+        <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+          <i class="fas fa-rocket text-3xl text-primary mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">面向未来的扩展性</h3>
+          <p class="text-slate-300">基于LinkStack，持续迭代，功能不断增强。</p>
+        </div>
+
+        <div class="p-6 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-all text-left">
+          <i class="fas fa-heart text-3xl text-primary mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">专注用户体验</h3>
+          <p class="text-slate-300">简洁易用，快速上手，我们倾听你的声音。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EgoLinks 常见问题 -->
+    <section class="py-16 px-4" id="faq">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">常见问题</h2>
+        <p class="text-xl text-slate-300 mb-12 text-center max-w-3xl mx-auto">关于EgoLinks的一切，这里为你解答</p>
+
+        <div class="space-y-4 max-w-4xl mx-auto">
+          <!-- 问题1 -->
+          <div class="border border-slate-700 rounded-lg overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all"
+              onclick="toggleFaq(this)">
+              <span class="text-lg font-medium">什么是EgoLinks个人链接聚合平台？</span>
+              <i class="fas fa-chevron-down text-primary transition-transform"></i>
+            </button>
+            <div class="faq-content hidden p-5 bg-slate-800/30">
+              <p class="text-slate-300">EgoLinks是一个免费、高度可定制的<strong>个人链接聚合</strong>服务，帮助你创建专属的<strong>link in
+                  bio</strong>页面。你可以在一个页面上集中展示所有社交媒体账号、作品集、项目和重要链接，打造专业的<strong>数字名片</strong>和个人品牌形象。无论你是创作者、设计师、自由职业者还是企业，EgoLinks都能满足你的需求。
+              </p>
+            </div>
+          </div>
+
+          <!-- 问题2 -->
+          <div class="border border-slate-700 rounded-lg overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all"
+              onclick="toggleFaq(this)">
+              <span class="text-lg font-medium">EgoLinks与其他链接聚合工具相比有什么优势？</span>
+              <i class="fas fa-chevron-down text-primary transition-transform"></i>
+            </button>
+            <div class="faq-content hidden p-5 bg-slate-800/30">
+              <p class="text-slate-300">
+                EgoLinks提供真正的<strong>高度定制</strong>体验，不仅仅是换皮肤，而是从布局到细节的全面自定义。我们提供<strong>永久免费</strong>的基础版本，满足大多数用户需求。基于LinkStack开发，具有出色的扩展性和稳定性。此外，我们专注于用户体验，提供简洁易用的界面，让你能快速创建专业的<strong>个人主页</strong>和<strong>网址导航</strong>。
+              </p>
+            </div>
+          </div>
+
+          <!-- 问题3 -->
+          <div class="border border-slate-700 rounded-lg overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all"
+              onclick="toggleFaq(this)">
+              <span class="text-lg font-medium">我可以用EgoLinks做什么？</span>
+              <i class="fas fa-chevron-down text-primary transition-transform"></i>
+            </button>
+            <div class="faq-content hidden p-5 bg-slate-800/30">
+              <p class="text-slate-300">
+                EgoLinks适用于多种场景：创建专业的<strong>数字名片</strong>展示你的联系方式和作品；制作<strong>在线简历</strong>链接分享给招聘方；搭建个人<strong>作品集</strong>展示页面；创建<strong>导航网站</strong>整合你常用的工具和资源；为社交媒体账号（如微博、小红书、B站等）提供统一的<strong>链接集合</strong>，解决平台只能放一个链接的限制。无论你是<strong>创作者</strong>、设计师、学生还是专业人士，EgoLinks都能满足你的需求。
+              </p>
+            </div>
+          </div>
+
+          <!-- 问题4 -->
+          <div class="border border-slate-700 rounded-lg overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all"
+              onclick="toggleFaq(this)">
+              <span class="text-lg font-medium">使用EgoLinks需要具备编程知识吗？</span>
+              <i class="fas fa-chevron-down text-primary transition-transform"></i>
+            </button>
+            <div class="faq-content hidden p-5 bg-slate-800/30">
+              <p class="text-slate-300">
+                完全不需要！EgoLinks设计为对所有人友好的平台。我们提供直观的拖拽界面和丰富的模板，让你无需任何技术知识就能创建专业的<strong>个人网站</strong>。当然，如果你懂一些CSS，还可以进行更深度的自定义，打造真正独一无二的<strong>个性化链接主页</strong>。
+              </p>
+            </div>
+          </div>
+
+          <!-- 问题5 -->
+          <div class="border border-slate-700 rounded-lg overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all"
+              onclick="toggleFaq(this)">
+              <span class="text-lg font-medium">EgoLinks真的完全免费吗？</span>
+              <i class="fas fa-chevron-down text-primary transition-transform"></i>
+            </button>
+            <div class="faq-content hidden p-5 bg-slate-800/30">
+              <p class="text-slate-300">
+                是的，EgoLinks提供功能强大的永久免费基础版，满足大多数用户的核心需求。你可以创建自己的<strong>免费个人网站</strong>，添加无限链接，自定义主题和布局，并获得基本的访问统计。我们也提供付费升级选项，解锁更多高级功能，如自定义域名、高级分析、移除品牌标识等，但核心功能永远免费。
+              </p>
+            </div>
+          </div>
+
+          <!-- 问题6 -->
+          <div class="border border-slate-700 rounded-lg overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center p-5 text-left bg-slate-800/50 hover:bg-slate-800 transition-all"
+              onclick="toggleFaq(this)">
+              <span class="text-lg font-medium">如何开始使用EgoLinks创建我的个人链接页面？</span>
+              <i class="fas fa-chevron-down text-primary transition-transform"></i>
+            </button>
+            <div class="faq-content hidden p-5 bg-slate-800/30">
+              <p class="text-slate-300">
+                开始使用EgoLinks非常简单：首先注册一个免费账号；选择你喜欢的模板或从头开始创建；添加你的社交媒体链接、作品和项目；自定义外观和布局；最后发布并分享你的<strong>个人品牌</strong>链接。整个过程只需几分钟，你就能拥有一个专业的<strong>链接分享</strong>页面。立即注册，开启你的EgoLinks之旅！
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 添加FAQ切换脚本 -->
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const starfield = document.getElementById('starfield');
-        const starsCount = 100;
-        
-        for (let i = 0; i < starsCount; i++) {
-          const star = document.createElement('div');
-          star.classList.add('star');
-          
-          // 随机位置
-          star.style.top = `${Math.random() * 100}%`;
-          star.style.left = `${Math.random() * 100}%`;
-          
-          // 随机大小
-          const size = Math.random() * 3;
-          star.style.width = `${size}px`;
-          star.style.height = `${size}px`;
-          
-          // 随机动画延迟
-          star.style.animationDelay = `${Math.random() * 5}s`;
-          
-          starfield.appendChild(star);
-        }
+      function toggleFaq(button) {
+        const content = button.nextElementSibling;
+        const icon = button.querySelector('i');
+
+        // 切换内容显示/隐藏
+        content.classList.toggle('hidden');
+
+        // 切换图标旋转
+        icon.classList.toggle('transform');
+        icon.classList.toggle('rotate-180');
+      }
+    </script>
+
+    <!-- 行动召唤区域 -->
+    <section class="text-center py-16 px-4 rounded-2xl bg-gradient-to-r from-purple-900/50 to-pink-900/50">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">准备好打造你的专属数字链接中心了吗？</h2>
+      <p class="text-xl text-slate-300 mb-8 max-w-3xl mx-auto">
+        立即加入成千上万人的选择，EgoLinks 让世界更好地认识你。
+      </p>
+      <a href="https://egolinks.online/register"
+        class="px-8 py-4 bg-primary rounded-lg text-white font-bold text-lg hover:bg-opacity-80 inline-block">
+        立即免费注册 EgoLinks
+      </a>
+    </section>
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="bg-slate-900 border-t border-slate-800 py-12 px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <a class="flex items-center gap-3 mb-4" href="#">
+            <img src="/favicon.svg" alt="Logo" class="w-10 h-10" />
+            <span class="text-xl font-bold">EgoLinks</span>
+          </a>
+          <p class="text-slate-400">一链万象，链出本我。</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold mb-4">产品</h3>
+          <ul class="space-y-2">
+            <li><a href="https://linktoai.top" class="text-slate-400 hover:text-primary">AI未来城</a></li>
+            <li><a href="https://chatallais.com" class="text-slate-400 hover:text-primary">星界AI</a></li>
+            <li><a href="https://24kwebgames.com" class="text-slate-400 hover:text-primary">24K Web Games</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold mb-4">资源</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-slate-400 hover:text-primary">博客</a></li>
+            <li><a href="#" class="text-slate-400 hover:text-primary">帮助中心</a></li>
+            <li><a href="" class="text-slate-400 hover:text-primary"></a></li>
+          </ul>
+        </div>
+
+
+        <div>
+          <h3 class="text-lg font-bold mb-4">法律</h3>
+          <ul class="space-y-2">
+            <li><a href="https://egolinks.online/pages/%E6%9D%A1%E6%AC%BE"
+                class="text-slate-400 hover:text-primary">服务条款</a></li>
+            <li><a href="https://egolinks.online/pages/%E9%9A%90%E7%A7%81"
+                class="text-slate-400 hover:text-primary">隐私政策</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-slate-400">© 2025 EgoLinks. 保留所有权利. Powered by 麒麟剑 </p>
+        <div class="flex space-x-4 mt-4 md:mt-0">
+          <a href="#" class="text-slate-400 hover:text-primary"><i class="fab fa-weixin text-xl"></i></a>
+          <a href="#" class="text-slate-400 hover:text-primary"><i class="fab fa-weibo text-xl"></i></a>
+          <a href="#" class="text-slate-400 hover:text-primary"><i class="fab fa-bilibili text-xl"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 星空背景脚本 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const starfield = document.getElementById('starfield');
+      const starsCount = 100;
+
+      for (let i = 0; i < starsCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+
+        // 随机位置
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+
+        // 随机大小
+        const size = Math.random() * 3;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+
+        // 随机动画延迟
+        star.style.animationDelay = `${Math.random() * 5}s`;
+
+        starfield.appendChild(star);
+      }
+    });
+
+    // 移动端导航菜单
+    document.getElementById('open-nav-button').addEventListener('click', function () {
+      // 创建移动端导航菜单
+      const mobileMenu = document.createElement('div');
+      mobileMenu.id = 'mobile-menu';
+      mobileMenu.className = 'fixed inset-0 bg-slate-900/95 z-50 flex flex-col items-center justify-center';
+
+      // 创建关闭按钮
+      const closeButton = document.createElement('button');
+      closeButton.className = 'absolute top-4 right-4 text-white';
+      closeButton.innerHTML = '<i class="fas fa-times text-2xl"></i>';
+      closeButton.addEventListener('click', function () {
+        document.body.removeChild(mobileMenu);
       });
-      
-      // 移动端导航菜单
-      document.getElementById('open-nav-button').addEventListener('click', function() {
-        // 创建移动端导航菜单
-        const mobileMenu = document.createElement('div');
-        mobileMenu.id = 'mobile-menu';
-        mobileMenu.className = 'fixed inset-0 bg-slate-900/95 z-50 flex flex-col items-center justify-center';
-        
-        // 创建关闭按钮
-        const closeButton = document.createElement('button');
-        closeButton.className = 'absolute top-4 right-4 text-white';
-        closeButton.innerHTML = '<i class="fas fa-times text-2xl"></i>';
-        closeButton.addEventListener('click', function() {
-          document.body.removeChild(mobileMenu);
-        });
-        
-        // 创建导航链接
-        const navLinks = document.createElement('div');
-        navLinks.className = 'flex flex-col items-center gap-6';
-        navLinks.innerHTML = `
+
+      // 创建导航链接
+      const navLinks = document.createElement('div');
+      navLinks.className = 'flex flex-col items-center gap-6';
+      navLinks.innerHTML = `
           <a class="text-xl hover:text-primary" href="#features">核心功能</a>
           <a class="text-xl hover:text-primary" href="#showcase">模板展示</a>
           <a class="text-xl hover:text-primary" href="#why-choose">为何选择我们</a>
@@ -630,15 +681,29 @@
             <a href="https://egolinks.online/register" class="px-6 py-3 rounded bg-primary hover:bg-opacity-80">注册</a>
           </div>
         `;
-        
-        // 添加元素到菜单
-        mobileMenu.appendChild(closeButton);
-        mobileMenu.appendChild(navLinks);
-        
-        // 添加菜单到页面
-        document.body.appendChild(mobileMenu);
-      });
-      
-    </script>
-  </body>
+
+      // 添加元素到菜单
+      mobileMenu.appendChild(closeButton);
+      mobileMenu.appendChild(navLinks);
+
+      // 添加菜单到页面
+      document.body.appendChild(mobileMenu);
+    });
+
+  </script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZ84BLRJ6Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-EZ84BLRJ6Y');
+  </script>
+
+  <!-- Plausible Script -->
+  <script defer data-domain="egolinks.online"
+    src="https://analytics.24kwebgames.com/js/script.outbound-links.js"></script>
+</body>
+
 </html>
