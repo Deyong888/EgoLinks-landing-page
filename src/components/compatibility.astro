@@ -5,25 +5,26 @@ import type { CompatibilityItem } from "~/types";
 
 const frameworks: Array<CompatibilityItem> = [
   {
-    title: "React",
+    title: "vCard to Url",
     icon: "frameworks/react",
-    url: "https://reactjs.org/",
+    url: "https://www.vcard.link/card",
   },
   {
-    title: "Preact",
+    title: "Pdf to Url",
     icon: "frameworks/preact",
-    url: "https://preactjs.com/",
+    url: "https://2pdf.com/convert-pdf-to-url/",
   },
   {
-    title: "Svelte",
-    icon: "frameworks/svelte",
-    url: "https://svelte.dev/",
-  },
-  {
-    title: "Vue",
+    title: "Image to Url",
     icon: "frameworks/vue",
-    url: "https://vuejs.org/",
+    url: "https://postimages.org/",
   },
+  {
+    title: "Video to Url",
+    icon: "frameworks/svelte",
+    url: "https://imagekit.io/tools/video-to-url/",
+  },
+
   {
     title: "Solid",
     icon: "frameworks/solid",
@@ -72,18 +73,20 @@ const platforms: Array<CompatibilityItem> = [
 
 <ContentSection title="Compatibility" id="compatibility">
   <Fragment slot="lead">
-    Astro <span class="text-primary">plays nice</span>. Bring your own UI{" "}
-    <span class="text-primary">framework</span>
-    and deploy to your favorite <span class="text-primary">platform</span>.
+    EgoLinks <span class="text-primary">  Take Control of Your Content</span>. Convert content into {" "}
+    <span class="text-primary"></span>
+    shareable URLs.Create Your Personalized Sharing Page with<span class="text-primary"> EgoLinks</span>.
   </Fragment>
   <CompatibilityList
     items={frameworks}
-    title="Frameworks"
+    title="Convert Content to Url"
     url="https://docs.astro.build/core-concepts/framework-components/"
   />
+  
   <CompatibilityList
     items={platforms}
     title="Platforms"
     url="https://docs.astro.build/guides/deploy/"
   />
+
 </ContentSection>
