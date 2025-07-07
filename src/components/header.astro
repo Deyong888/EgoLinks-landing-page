@@ -7,6 +7,7 @@ const navItems: Array<NavItem> = [
   { title: "Features", url: "#features" },
   { title: "Compatibility", url: "#compatibility" },
   { title: "Showcase", url: "#showcase" },
+  { title: "Tutorial", url: "/blog" },
 ];
 
 const languages = [
@@ -16,114 +17,118 @@ const languages = [
 
 const currentPath = Astro.url.pathname;
 const currentLang = currentPath.startsWith('/zh') ? 'zh' : 'en';
+const isBlogPage = currentPath.startsWith('/blog');
+
 ---
 
 <header
   id="page-header"
-  class="absolute bottom-0 z-20 flex w-full items-center justify-between border-b border-transparent px-8 py-4 text-white"
+  class={isBlogPage ? "fixed top-0 z-20 w-full bg-slate-900/80 backdrop-blur-sm border-b border-slate-800 px-8 py-4 text-white" : "absolute bottom-0 z-20 w-full px-8 py-4 text-white"}
 >
-  <a class="flex items-center gap-3 hover:!text-default" href="#">
-    <h1 class="sr-only">EgoLinks|EgoLinks官网 - 免费创建你的个性化链接主页_自定义数字名片与导航网站</h1>
-    <img src="/favicon.svg" alt="Logo" class="size-10" />
-    EgoLinks
-  </a>
-  <div>
-    <div class="flex items-center gap-6">
-      <nav class="hidden sm:block">
-        <ul class="flex items-center gap-6">
-          {
-            navItems.map(({ title, url }) => (
-              <li>
-                <a class="text-sm" href={url}>
-                  {title}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-      <button
-        id="open-nav-button"
-        type="button"
-        class="btn sm:hidden"
-        aria-label="Navigation"
-      >
-        <Icon name="mdi:menu" class="size-8" />
-      </button>
-      <div class="relative group">
-        <button
-          id="language-switcher-button"
-          type="button"
-          class="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-gray-700/20 transition-colors duration-200"
-          aria-label="Language Switcher"
-        >
-          <Icon name="mdi:translate" class="size-5" />
-          <span class="text-sm ml-1 hidden xs:inline">{currentLang === 'zh' ? '中文' : 'English'}</span>
-          <Icon name="mdi:chevron-up" class="size-4" />
-        </button>
-        <div class="absolute right-0 bottom-full mb-2 w-48 bg-default rounded-md shadow-lg overflow-hidden z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-700/50">
-          {languages.map((lang) => (
-            <a
-              href={`/${lang.code}`}
-              class={`flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-700/20 transition-colors ${currentLang === lang.code ? 'bg-primary/10 text-primary' : ''}`}
-            >
-              <Icon name={lang.flag} class="size-5" />
-              <span>{lang.name}</span>
-              {currentLang === lang.code && (
-                <Icon name="mdi:check" class="size-4 ml-auto text-primary" />
-              )}
-            </a>
-          ))}
-        </div>
-      </div>
-      <ThemeSwitcher />
-    </div>
-    <div id="menu-modal" class="modal hidden" aria-hidden="true">
-      <div class="fixed inset-0 bg-default px-8 py-4 text-default">
-        <div class="space-y-4" role="dialog" aria-modal="true">
-          <header class="text-right">
-            <button
-              id="close-nav-button"
-              type="button"
-              class="btn"
-              aria-label="Close navigation"
-            >
-              <Icon name="mdi:close" class="size-8" />
-            </button>
-          </header>
-          <div class="flex justify-center">
-            <img src="/favicon.svg" alt="Logo" class="size-16" />
-          </div>
-          <nav>
-            <ul class="flex flex-col">
-              {
-                navItems.map(({ title, url }) => (
-                  <li>
-                    <a class="block py-4 text-center text-xl" href={url}>
-                      {title}
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-            <div class="mt-6 border-t border-gray-700 pt-6">
-              <p class="text-center mb-4 text-sm text-gray-400">语言 / Language</p>
-              <div class="flex justify-center gap-4">
-                {languages.map((lang) => (
-                  <a
-                    href={`/${lang.code}`}
-                    class={`flex flex-col items-center gap-1 p-2 rounded-md hover:bg-gray-700/20 transition-colors ${currentLang === lang.code ? 'bg-primary/10 text-primary' : ''}`}
-                  >
-                    <Icon name={lang.flag} class="size-8" />
-                    <span class="text-sm">{lang.name}</span>
-                    {currentLang === lang.code && (
-                      <Icon name="mdi:check" class="size-4 text-primary mt-1" />
-                    )}
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a class="flex items-center gap-3 hover:!text-default" href="/">
+      <h1 class="sr-only">EgoLinks|EgoLinks官网 - 免费创建你的个性化链接主页_自定义数字名片与导航网站</h1>
+      <img src="/favicon.svg" alt="Logo" class="size-10" />
+      <span class="text-xl font-bold">EgoLinks</span>
+    </a>
+    <div>
+      <div class="flex items-center gap-6">
+        <nav class="hidden sm:block">
+          <ul class="flex items-center gap-6">
+            {
+              navItems.map(({ title, url }) => (
+                <li>
+                  <a class="text-sm" href={url}>
+                    {title}
                   </a>
-                ))}
-              </div>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <button
+          id="open-nav-button"
+          type="button"
+          class="btn sm:hidden"
+          aria-label="Navigation"
+        >
+          <Icon name="mdi:menu" class="size-8" />
+        </button>
+        <div class="relative group">
+          <button
+            id="language-switcher-button"
+            type="button"
+            class="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-gray-700/20 transition-colors duration-200"
+            aria-label="Language Switcher"
+          >
+            <Icon name="mdi:translate" class="size-5" />
+            <span class="text-sm ml-1 hidden xs:inline">{currentLang === 'zh' ? '中文' : 'English'}</span>
+            <Icon name="mdi:chevron-up" class="size-4" />
+          </button>
+          <div class="absolute right-0 bottom-full mb-2 w-48 bg-default rounded-md shadow-lg overflow-hidden z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-700/50">
+            {languages.map((lang) => (
+              <a
+                href={`/${lang.code}`}
+                class={`flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-700/20 transition-colors ${currentLang === lang.code ? 'bg-primary/10 text-primary' : ''}`}
+              >
+                <Icon name={lang.flag} class="size-5" />
+                <span>{lang.name}</span>
+                {currentLang === lang.code && (
+                  <Icon name="mdi:check" class="size-4 ml-auto text-primary" />
+                )}
+              </a>
+            ))}
+          </div>
+        </div>
+        <ThemeSwitcher />
+      </div>
+      <div id="menu-modal" class="modal hidden" aria-hidden="true">
+        <div class="fixed inset-0 bg-default px-8 py-4 text-default">
+          <div class="space-y-4" role="dialog" aria-modal="true">
+            <header class="text-right">
+              <button
+                id="close-nav-button"
+                type="button"
+                class="btn"
+                aria-label="Close navigation"
+              >
+                <Icon name="mdi:close" class="size-8" />
+              </button>
+            </header>
+            <div class="flex justify-center">
+              <img src="/favicon.svg" alt="Logo" class="size-16" />
             </div>
-          </nav>
+            <nav>
+              <ul class="flex flex-col">
+                {
+                  navItems.map(({ title, url }) => (
+                    <li>
+                      <a class="block py-4 text-center text-xl" href={url}>
+                        {title}
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+              <div class="mt-6 border-t border-gray-700 pt-6">
+                <p class="text-center mb-4 text-sm text-gray-400">语言 / Language</p>
+                <div class="flex justify-center gap-4">
+                  {languages.map((lang) => (
+                    <a
+                      href={`/${lang.code}`}
+                      class={`flex flex-col items-center gap-1 p-2 rounded-md hover:bg-gray-700/20 transition-colors ${currentLang === lang.code ? 'bg-primary/10 text-primary' : ''}`}
+                    >
+                      <Icon name={lang.flag} class="size-8" />
+                      <span class="text-sm">{lang.name}</span>
+                      {currentLang === lang.code && (
+                        <Icon name="mdi:check" class="size-4 text-primary mt-1" />
+                      )}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </nav>
+          </div>
         </div>
       </div>
     </div>
@@ -158,10 +163,14 @@ const currentLang = currentPath.startsWith('/zh') ? 'zh' : 'en';
   openNavButton.addEventListener("click", openMenu);
   closeNavButton.addEventListener("click", closeMenu);
 
-  document.addEventListener("scroll", () => {
-    const d = page.clientHeight - page.scrollTop - header.offsetHeight;
-    header.classList.toggle("fixed-header", d < 0);
-  });
+  // 只在首页添加滚动事件监听器
+  const isBlogPage = window.location.pathname.startsWith('/blog');
+  if (!isBlogPage) {
+    document.addEventListener("scroll", () => {
+      const d = page.clientHeight - page.scrollTop - header.offsetHeight;
+      header.classList.toggle("fixed-header", d < 0);
+    });
+  }
 
   menu.addEventListener("click", (event) => {
     if ((event.target as HTMLElement).tagName === "A") {
@@ -179,6 +188,7 @@ const currentLang = currentPath.startsWith('/zh') ? 'zh' : 'en';
 </noscript>
 
 <style>
+  /* 首页导航栏滚动到顶部时的样式 */
   .fixed-header {
     @apply fixed bottom-auto top-0;
     @apply border-default bg-default text-default;

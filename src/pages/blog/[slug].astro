@@ -1,0 +1,208 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import "@fontsource-variable/inter";
+import Footer from "~/components/footer.astro";
+import Header from "~/components/header.astro";
+import "~/styles/index.css";
+import "~/styles/blog.css";
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("blog");
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const { generator, site } = Astro;
+const image = entry.data.image || new URL("social.jpg", site);
+const description = entry.data.description;
+
+// 获取相关文章（同标签的其他文章）
+const allPosts = await getCollection("blog");
+const relatedPosts = allPosts
+  .filter((post) => 
+    post.slug !== entry.slug && 
+    post.data.tags.some(tag => entry.data.tags.includes(tag))
+  )
+  .sort(() => Math.random() - 0.5) // 随机排序
+  .slice(0, 3); // 最多显示3篇
+---
+
+<!doctype html>
+<html lang="zh" class="h-full motion-safe:scroll-smooth" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={generator} />
+
+    <title>{entry.data.title} - EgoLinks博客</title>
+    <meta name="description" content={description} />
+
+    <!-- social media -->
+    <meta property="og:title" content={`${entry.data.title} - EgoLinks博客`} />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, site).toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- initialize theme -->
+    <script is:inline>
+      const themeSaved = localStorage.getItem("theme");
+
+      if (themeSaved) {
+        document.documentElement.dataset.theme = themeSaved;
+      } else {
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        document.documentElement.dataset.theme = prefersDark ? "dark" : "light";
+      }
+
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (event) => {
+          if (!localStorage.getItem("theme")) {
+            document.documentElement.dataset.theme = event.matches
+              ? "dark"
+              : "light";
+          }
+        });
+    </script>
+  </head>
+  <body
+    class="h-full overflow-x-hidden bg-default text-default text-base selection:bg-secondary selection:text-white"
+  >
+    <Header />
+    
+    <div class="px-4 sm:px-6 lg:px-8 py-32 mt-16">
+      <div class="mx-auto max-w-4xl">
+        <!-- 文章头部 -->
+        <div class="text-center mb-12">
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight mb-4">
+            {entry.data.title}
+          </h1>
+          <p class="text-lg mb-6">{entry.data.description}</p>
+          <div class="flex items-center justify-center space-x-4">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              {entry.data.author} · {entry.data.pubDate.toLocaleDateString('zh-CN', {year: 'numeric', month: 'long', day: 'numeric'})}
+            </p>
+          </div>
+          <div class="mt-4 flex flex-wrap justify-center gap-2">
+            {entry.data.tags.map((tag) => (
+              <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-primary/10 text-primary">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <!-- 特色图片 -->
+        {entry.data.image && (
+          <div class="mb-12">
+            <img 
+              src={entry.data.image} 
+              alt={entry.data.title}
+              class="w-full h-auto rounded-lg shadow-lg" 
+            />
+          </div>
+        )}
+
+        <!-- 文章内容 -->
+        <article class="prose prose-lg dark:prose-invert max-w-none">
+          <Content />
+        </article>
+
+        <!-- 分享按钮 -->
+        <div class="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <h3 class="text-lg font-medium mb-4">分享这篇文章</h3>
+          <div class="flex space-x-4">
+            <a 
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(entry.data.title)}&url=${encodeURIComponent(new URL(Astro.url.pathname, site).toString())}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gray-400 hover:text-primary transition-colors"
+              aria-label="分享到Twitter"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+              </svg>
+            </a>
+            <a 
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(new URL(Astro.url.pathname, site).toString())}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gray-400 hover:text-primary transition-colors"
+              aria-label="分享到Facebook"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+            <a 
+              href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(new URL(Astro.url.pathname, site).toString())}&title=${encodeURIComponent(entry.data.title)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gray-400 hover:text-primary transition-colors"
+              aria-label="分享到LinkedIn"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M19.7 3H4.3A1.3 1.3 0 003 4.3v15.4A1.3 1.3 0 004.3 21h15.4a1.3 1.3 0 001.3-1.3V4.3A1.3 1.3 0 0019.7 3zM8.339 18.338H5.667v-8.59h2.672v8.59zM7.004 8.574a1.548 1.548 0 11-.002-3.096 1.548 1.548 0 01.002 3.096zm11.335 9.764H15.67v-4.177c0-.996-.017-2.278-1.387-2.278-1.389 0-1.601 1.086-1.601 2.206v4.249h-2.667v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.779 3.203 4.092v4.711z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- 相关文章 -->
+        {relatedPosts.length > 0 && (
+          <div class="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <h3 class="text-xl font-bold mb-6">相关文章</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {relatedPosts.map((post) => (
+                <div class="flex flex-col overflow-hidden rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+                  {post.data.image && (
+                    <div class="flex-shrink-0">
+                      <img 
+                        class="h-36 w-full object-cover" 
+                        src={post.data.image} 
+                        alt={post.data.title} 
+                      />
+                    </div>
+                  )}
+                  <div class="flex-1 p-4">
+                    <a href={`/blog/${post.slug}`} class="block">
+                      <h4 class="text-md font-semibold text-primary hover:underline">{post.data.title}</h4>
+                    </a>
+                    <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                      {post.data.pubDate.toLocaleDateString('zh-CN', {year: 'numeric', month: 'long', day: 'numeric'})}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- 返回按钮 -->
+        <div class="mt-12 text-center">
+          <a 
+            href="/blog" 
+            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark transition-colors"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            返回博客列表
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <Footer />
+  </body>
+</html>
